@@ -1,0 +1,27 @@
+{
+    "name": "finance-app-api",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "npx husky install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/devpedro-dias/finance-app-api.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/devpedro-dias/finance-app-api/issues"
+    },
+    "homepage": "https://github.com/devpedro-dias/finance-app-api#readme",
+    "description": "",
+    "devDependencies": {
+        "eslint": "8.46.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.3"
+    }
+}
