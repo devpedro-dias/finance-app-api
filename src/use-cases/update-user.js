@@ -11,10 +11,10 @@ export class UpdateUserUseCase {
 
             const userWithProvidedEmail =
                 await postgresGetUserByEmailRepository.execute(
-                    updatedUserParams.email
+                    updatedUserParams.email,
                 )
 
-            if (userWithProvidedEmail) {
+            if (userWithProvidedEmail && userWithProvidedEmail.id !== userId) {
                 throw new EmailAlreadyInUseError(updatedUserParams.email)
             }
         }
@@ -26,7 +26,7 @@ export class UpdateUserUseCase {
         if (updatedUserParams.password) {
             const hashedPassword = await bcrypt.hash(
                 updatedUserParams.password,
-                10
+                10,
             )
 
             user.password = hashedPassword
@@ -36,7 +36,7 @@ export class UpdateUserUseCase {
 
         const updatedUser = await postgresUpdateUserRepository.execute(
             userId,
-            user
+            user,
         )
 
         return updatedUser
