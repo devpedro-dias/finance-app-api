@@ -11,9 +11,7 @@ export class CreateUserUseCase {
 
     async execute(createUserParams) {
         const userWithProvidedEmail =
-            await this.getUserByEmailRepository.execute(
-                createUserParams.email
-            )
+            await this.getUserByEmailRepository.execute(createUserParams.email)
 
         if (userWithProvidedEmail) {
             throw new EmailAlreadyInUseError(createUserParams.email)
