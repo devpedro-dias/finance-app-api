@@ -2,10 +2,13 @@ import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
     badRequest,
     checkIfEmailIsValid,
+    checkIfIdIsValid,
     checkIfPasswordIsValid,
     emailIsAlreadyInUseResponse,
+    invalidIdResponse,
     invalidPasswordResponse,
-    serverError
+    ok,
+    serverError,
 } from './helpers/index.js'
 
 export class UpdateUserController {
@@ -32,11 +35,9 @@ export class UpdateUserController {
                 'password',
             ]
 
-            const someFieldIsNotAllowed = Object.keys(params).some(
-                (field) => {
-                    !allowedFields.includes(field)
-                },
-            )
+            const someFieldIsNotAllowed = Object.keys(params).some((field) => {
+                !allowedFields.includes(field)
+            })
 
             if (someFieldIsNotAllowed) {
                 return badRequest({
