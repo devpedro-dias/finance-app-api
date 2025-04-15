@@ -1,0 +1,52 @@
+import {
+  CreateUserController,
+  GetUserByIdController,
+  UpdateUserController,
+} from "../../controllers/index.js";
+import {
+  PostgresCreateUserRepository,
+  PostgresGetUserByEmailRepository,
+  PostgresGetUserByIdRepository,
+  PostgresUpdateUserRepository,
+} from "../../repositories/postgres/index.js";
+import {
+  CreateUserUseCase,
+  GetUserByIdUseCase,
+  UpdateUserUseCase,
+} from "../../use-cases/index.js";
+
+export const makeGetUserByIdController = () => {
+  const getUserByIdRepository = new PostgresGetUserByIdRepository();
+  const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository);
+  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
+
+  return getUserByIdController;
+};
+
+export const makeCreateUserController = () => {
+  const createUserRepository = new PostgresCreateUserRepository();
+  const createUserUseCase = new CreateUserUseCase(createUserRepository);
+  const createUserController = new CreateUserController(createUserUseCase);
+
+  return createUserController;
+};
+
+export const makeUpdateUserController = () => {
+  const getUserByEmailRepository = new PostgresGetUserByEmailRepository();
+  const updateUserRepository = new PostgresUpdateUserRepository();
+  const updateUserUseCase = new UpdateUserUseCase(
+    getUserByEmailRepository,
+    updateUserRepository
+  );
+  const updateUserControler = new UpdateUserController(updateUserUseCase);
+
+  return updateUserControler;
+};
+
+export const makeDeleteUserController = () => {
+  const deleteUserRepository = new PostgresDeleteUserRepository();
+  const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository);
+  const deleteUserController = new DeleteUserController(deleteUserUseCase);
+
+  return deleteUserController;
+};
