@@ -10,8 +10,8 @@ export const makeCreateTransactionController = () => {
         new PostgresCreateTransactionRepository()
     const getUserByIdRepository = new PostgresGetUserByIdRepository()
     const createTransactionUseCase = new CreateTransactionUseCase(
-        createTransactionRepository,
         getUserByIdRepository,
+        createTransactionRepository,
     )
     const createTransactionController = new CreateTransactionController(
         createTransactionUseCase,
