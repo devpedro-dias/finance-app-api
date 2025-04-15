@@ -1,17 +1,20 @@
 import 'dotenv/config.js'
 import express from 'express'
-import { CreateUserController, UpdateUserController, GetUserByIdController } from './src/controllers/index.js'
 import { DeleteUserController } from './src/controllers/delete-user.js'
+import { CreateUserController, GetUserByIdController, UpdateUserController } from './src/controllers/index.js'
+import { PostgresCreateUserRepository } from './src/repositories/postgres/create-user.js'
+import { PostgresGetUserByEmailRepository } from './src/repositories/postgres/get-user-by-email.js'
+import { CreateUserUseCase } from './src/use-cases/create-user.js'
 import { GetUserByIdUseCase } from './src/use-cases/get-user-by-id.js'
-import { PostgresGetUserByIdRepository } from './src/repositories/postgres/get-user-by-id.js'
 
 const app = express()
 
 app.use(express.json())
 
 app.get('/api/users/:userId', async (request, response) => {
-    const postgresGetUserByIdRepository = new PostgresGetUserByIdRepository()
-    const getUserByIdUseCase = new GetUserByIdUseCase(postgresGetUserByIdRepository)
+    const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
+    const createUserRepository = new PostgresCreateUserRepository()
+    const getUserByIdUseCase = new GetUserByIdUseCase(getUserByEmailRepository, createUserRepository)
     const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
 
     const { statusCode, body } = await getUserByIdController.execute(request)
@@ -20,7 +23,9 @@ app.get('/api/users/:userId', async (request, response) => {
 })
 
 app.post('/api/users', async (request, response) => {
-    const createUserController = new CreateUserController()
+    const createUserRepository = new PostgresCreateUserRepository()
+    const createUserUseCase = new CreateUserUseCase(createUserRepository)
+    const createUserController = new CreateUserController(createUserUseCase)
 
     const { statusCode, body } = await createUserController.execute(request)
 
