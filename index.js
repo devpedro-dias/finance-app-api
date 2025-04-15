@@ -1,53 +1,68 @@
-import 'dotenv/config.js'
-import express from 'express'
-import { DeleteUserController } from './src/controllers/delete-user.js'
-import { CreateUserController, GetUserByIdController, UpdateUserController } from './src/controllers/index.js'
-import { PostgresCreateUserRepository } from './src/repositories/postgres/create-user.js'
-import { PostgresGetUserByEmailRepository } from './src/repositories/postgres/get-user-by-email.js'
-import { CreateUserUseCase } from './src/use-cases/create-user.js'
-import { GetUserByIdUseCase } from './src/use-cases/get-user-by-id.js'
+import "dotenv/config.js";
+import express from "express";
+import { DeleteUserController } from "./src/controllers/delete-user.js";
+import {
+    CreateUserController,
+    GetUserByIdController,
+    UpdateUserController,
+} from "./src/controllers/index.js";
+import { PostgresCreateUserRepository } from "./src/repositories/postgres/create-user.js";
+import { PostgresGetUserByEmailRepository } from "./src/repositories/postgres/get-user-by-email.js";
+import { PostgresUpdateUserRepository } from "./src/repositories/postgres/update-user.js";
+import { CreateUserUseCase } from "./src/use-cases/create-user.js";
+import { GetUserByIdUseCase } from "./src/use-cases/get-user-by-id.js";
+import { UpdateUserUseCase } from "./src/use-cases/update-user.js";
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
-app.get('/api/users/:userId', async (request, response) => {
-    const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
-    const createUserRepository = new PostgresCreateUserRepository()
-    const getUserByIdUseCase = new GetUserByIdUseCase(getUserByEmailRepository, createUserRepository)
-    const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
+app.get("/api/users/:userId", async (request, response) => {
+  const getUserByEmailRepository = new PostgresGetUserByEmailRepository();
+  const createUserRepository = new PostgresCreateUserRepository();
+  const getUserByIdUseCase = new GetUserByIdUseCase(
+    getUserByEmailRepository,
+    createUserRepository
+  );
+  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
 
-    const { statusCode, body } = await getUserByIdController.execute(request)
+  const { statusCode, body } = await getUserByIdController.execute(request);
 
-    response.status(statusCode).send(body)
-})
+  response.status(statusCode).send(body);
+});
 
-app.post('/api/users', async (request, response) => {
-    const createUserRepository = new PostgresCreateUserRepository()
-    const createUserUseCase = new CreateUserUseCase(createUserRepository)
-    const createUserController = new CreateUserController(createUserUseCase)
+app.post("/api/users", async (request, response) => {
+  const createUserRepository = new PostgresCreateUserRepository();
+  const createUserUseCase = new CreateUserUseCase(createUserRepository);
+  const createUserController = new CreateUserController(createUserUseCase);
 
-    const { statusCode, body } = await createUserController.execute(request)
+  const { statusCode, body } = await createUserController.execute(request);
 
-    response.status(statusCode).send(body)
-})
+  response.status(statusCode).send(body);
+});
 
-app.patch('/api/users/:userId', async (request, response) => {
-    const updateUserController = new UpdateUserController()
+app.patch("/api/users/:userId", async (request, response) => {
+  const getUserByEmailRepository = new PostgresGetUserByEmailRepository();
+  const updateUserRepository = new PostgresUpdateUserRepository();
+  const updateUserUseCase = new UpdateUserUseCase(
+    getUserByEmailRepository,
+    updateUserRepository
+  );
+  const updateUserController = new UpdateUserController(updateUserUseCase);
 
-    const { statusCode, body } = await updateUserController.execute(request)
+  const { statusCode, body } = await updateUserController.execute(request);
 
-    response.status(statusCode).send(body)
-})
+  response.status(statusCode).send(body);
+});
 
-app.delete('/api/users/:userId', async (request, response) => {
-    const deleteUserController = new DeleteUserController()
+app.delete("/api/users/:userId", async (request, response) => {
+  const deleteUserController = new DeleteUserController();
 
-    const { statusCode, body } = await deleteUserController.execute(request)
+  const { statusCode, body } = await deleteUserController.execute(request);
 
-    response.status(statusCode).send(body)
-})
+  response.status(statusCode).send(body);
+});
 
 app.listen(process.env.PORT, () =>
-    console.log(`Listening on port ${process.env.PORT}`),
-)
+  console.log(`Listening on port ${process.env.PORT}`)
+);
