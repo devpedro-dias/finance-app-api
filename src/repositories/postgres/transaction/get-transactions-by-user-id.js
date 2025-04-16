@@ -1,12 +1,12 @@
-import { PosgresHelper } from "../../../db/postgres/helper";
+import { PostgresHelper } from '../../../db/postgres/helper.js'
 
 export class PostgresGetTransactionsByUserIdRepository {
-  async execute() {
-    const transactions = await PosgresHelper.query(
-      "SELECT * FROM transactions WHERE user_id = $1",
-      [userId]
-    );
+    async execute(userId) {
+        const transactions = await PostgresHelper.query(
+            'SELECT * FROM transactions WHERE user_id = $1',
+            [userId],
+        )
 
-    return transactions;
-  }
+        return transactions
+    }
 }
