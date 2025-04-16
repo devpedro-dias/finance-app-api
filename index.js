@@ -4,6 +4,7 @@ import {
     makeCreateUserController,
     makeGetUserByIdController,
     makeUpdateUserController,
+    makeUpdateTransactionController
 } from './src/factories/controllers/user.js'
 import { makeCreateTransactionController, makeGetTransactionsByUserIdController } from './src/factories/controllers/transaction.js'
 
@@ -48,11 +49,19 @@ app.get('/api/transactions', async (request, response) => {
 
     response.status(statusCode).send(body)
 })
+
 app.post('/api/transactions', async (request, response) => {
     const createTransactionController = makeCreateTransactionController()
 
     const { statusCode, body } =
         await createTransactionController.execute(request)
+
+    response.status(statusCode).send(body)
+})
+
+app.patch('/api/transactions/:transactionId', async (request, response) => {
+    const updateTransactionController = makeUpdateTransactionController()
+    const { statusCode, body } = await updateTransactionController.execute(request)
 
     response.status(statusCode).send(body)
 })
