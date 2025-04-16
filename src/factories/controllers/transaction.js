@@ -1,56 +1,74 @@
 import {
-  PostgresCreateTransactionRepository,
-  PostgresGetUserByIdRepository,
-  PostgresGetTransactionsByUserIdRepository,
-  PostgresUpdateTransactionRepository,
-} from "../../repositories/postgres/index.js";
+    PostgresCreateTransactionRepository,
+    PostgresGetUserByIdRepository,
+    PostgresGetTransactionsByUserIdRepository,
+    PostgresUpdateTransactionRepository,
+    PostgresDeleteTransactionRepository,
+} from '../../repositories/postgres/index.js'
 import {
-  CreateTransactionUseCase,
-  GetTransactionsByUserIdUseCase,
-  UpdateTransactionUseCase,
-} from "../../use-cases/index.js";
+    CreateTransactionUseCase,
+    DeleteTransactionUseCase,
+    GetTransactionsByUserIdUseCase,
+    UpdateTransactionUseCase,
+} from '../../use-cases/index.js'
 import {
-  CreateTransactionController,
-  GetTransactionsByUserIdController,
-  UpdateTransactionController,
-} from "../../controllers/index.js";
+    CreateTransactionController,
+    DeleteTransactionController,
+    GetTransactionsByUserIdController,
+    UpdateTransactionController,
+} from '../../controllers/index.js'
 
 export const makeCreateTransactionController = () => {
-  const createTransactionRepository = new PostgresCreateTransactionRepository();
-  const getUserByIdRepository = new PostgresGetUserByIdRepository();
-  const createTransactionUseCase = new CreateTransactionUseCase(
-    getUserByIdRepository,
-    createTransactionRepository
-  );
-  const createTransactionController = new CreateTransactionController(
-    createTransactionUseCase
-  );
+    const createTransactionRepository =
+        new PostgresCreateTransactionRepository()
+    const getUserByIdRepository = new PostgresGetUserByIdRepository()
+    const createTransactionUseCase = new CreateTransactionUseCase(
+        getUserByIdRepository,
+        createTransactionRepository,
+    )
+    const createTransactionController = new CreateTransactionController(
+        createTransactionUseCase,
+    )
 
-  return createTransactionController;
-};
+    return createTransactionController
+}
 
 export const makeGetTransactionsByUserIdController = () => {
-  const getTransactionsByUserIdRepository =
-    new PostgresGetTransactionsByUserIdRepository();
-  const getUserByIdRepository = new PostgresGetUserByIdRepository();
-  const getTransactionsByUserIdUseCase = new GetTransactionsByUserIdUseCase(
-    getUserByIdRepository,
-    getTransactionsByUserIdRepository
-  );
-  const getTransactionsByUserIdController =
-    new GetTransactionsByUserIdController(getTransactionsByUserIdUseCase);
+    const getTransactionsByUserIdRepository =
+        new PostgresGetTransactionsByUserIdRepository()
+    const getUserByIdRepository = new PostgresGetUserByIdRepository()
+    const getTransactionsByUserIdUseCase = new GetTransactionsByUserIdUseCase(
+        getUserByIdRepository,
+        getTransactionsByUserIdRepository,
+    )
+    const getTransactionsByUserIdController =
+        new GetTransactionsByUserIdController(getTransactionsByUserIdUseCase)
 
-  return getTransactionsByUserIdController;
-};
+    return getTransactionsByUserIdController
+}
 
 export const makeUpdateTransactionController = () => {
-  const updateTransactionRepository = new PostgresUpdateTransactionRepository();
-  const updateTransactionUseCase = new UpdateTransactionUseCase(
-    updateTransactionRepository
-  );
-  const updateTransactionController = new UpdateTransactionController(
-    updateTransactionUseCase
-  );
+    const updateTransactionRepository =
+        new PostgresUpdateTransactionRepository()
+    const updateTransactionUseCase = new UpdateTransactionUseCase(
+        updateTransactionRepository,
+    )
+    const updateTransactionController = new UpdateTransactionController(
+        updateTransactionUseCase,
+    )
 
-  return updateTransactionController;
-};
+    return updateTransactionController
+}
+
+export const makeDeleteTransactionController = () => {
+    const deleteTransactionRepository =
+        new PostgresDeleteTransactionRepository()
+    const deleteTransactionUseCase = new DeleteTransactionUseCase(
+        deleteTransactionRepository,
+    )
+    const deleteTransactionController = new DeleteTransactionController(
+        deleteTransactionUseCase,
+    )
+
+    return deleteTransactionController
+}

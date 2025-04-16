@@ -1,25 +1,30 @@
-import { badRequest } from "./http.js";
-import validator from "validator";
+import { badRequest, notFound } from './http.js'
+import validator from 'validator'
 
 export const invalidAmountResponse = () =>
-  badRequest({ message: "The amount must be a valid number" });
+    badRequest({ message: 'The amount must be a valid number' })
 
 export const invalidTypeResponse = () =>
-  badRequest({
-    message: "The type must be EARNING, EXPENSE or INVESTMENT",
-  });
+    badRequest({
+        message: 'The type must be EARNING, EXPENSE or INVESTMENT',
+    })
 
 export const checkIfAmountIsValid = (amount) => {
-  if (typeof amount !== "number") {
-    return false;
-  }
+    if (typeof amount !== 'number') {
+        return false
+    }
 
-  return validator.isCurrency(amount.toFixed(2), {
-    digits_after_decimal: [2],
-    allow_negatives: false,
-    decimal_separator: ".",
-  });
-};
+    return validator.isCurrency(amount.toFixed(2), {
+        digits_after_decimal: [2],
+        allow_negatives: false,
+        decimal_separator: '.',
+    })
+}
+
+export const transactionNotFoundResponse = () =>
+    notFound({
+        message: 'Transaction not found',
+    })
 
 export const checkIfTypeIsValid = (type) =>
-  ["EARNING", "EXPENSE", "INVESTMENT"].includes(type);
+    ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
