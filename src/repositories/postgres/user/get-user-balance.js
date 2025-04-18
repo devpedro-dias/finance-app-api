@@ -1,27 +1,54 @@
-import { PostgresHelper } from '../../../db/postgres/helper.js'
+import { prisma } from '../../../../prisma/prisma.js'
 
 export class PostgresGetUserBalanceRepository {
     async execute(userId) {
-        const balance = await PostgresHelper.query(
-            `
-            SELECT 
-                SUM(CASE WHEN type = 'EARNING' THEN amount ELSE 0 END) AS earnings, 
-                SUM(CASE WHEN type = 'EXPENSE' THEN amount ELSE 0 END) AS expenses,
-                SUM(CASE WHEN type = 'INVESTMENT' THEN amount ELSE 0 END) AS investments,
-                (
-                    SUM(CASE WHEN type = 'EARNING' THEN amount ELSE 0 END)
-                    - SUM(CASE WHEN type = 'EXPENSE' THEN amount ELSE 0 END)
-                    - SUM(CASE WHEN type = 'INVESTMENT' THEN amount ELSE 0 END)
-                ) AS balance
-            FROM transactions
-            WHERE user_id = $1;
-            `,
-            [userId],
-        )
+        const {
+            _sum: { amount: totalExpense },
+        } = await prisma.transaction.aggregate({
+            where: {
+                type: 'EXPENSE',
+                userId,
+            },
+            _sum: {
+                amount: true,
+            },
+        })
+
+        const {
+            _sum: { amount: totalEarning },
+        } = await prisma.transaction.aggregate({
+            where: {
+                user_id: userId,
+                type: 'EARNING',
+            },
+            _sum: {
+                amount: true,
+            },
+        })
+
+        const {
+            _sum: { amount: totalInvestment },
+        } = await prisma.transaction.aggregate({
+            where: {
+                type: 'INVESTMENT',
+                user_id: userId,
+            },
+            _sum: {
+                amount: true,
+            },
+        })
+
+        const _totalEarning = totalEarning || 0
+        const _totalExpense = totalExpense || 0
+        const _totalInvestment = totalInvestment || 0
+
+        const balance = _totalEarning - _totalExpense - _totalInvestment
 
         return {
-            userId,
-            ...balance[0],
+            earnings: _totalEarning,
+            expenses: _totalExpense,
+            investments: _totalInvestment,
+            balance,
         }
     }
 }
