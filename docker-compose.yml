@@ -1,13 +1,11 @@
-version: '3'
-
 services:
     postgres:
-        image: postgres:latest
-        container_name: finance-app
+        image: postgres
+        container_name: finance-app-postgres
         environment:
-            POSTGRES_USER: root
+            POSTGRES_USER: postgres
             POSTGRES_PASSWORD: password
-            POSTGRES_DB: postgres
+            POSTGRES_DB: finance-app
         ports:
             - 5432:5432
         volumes:
