@@ -1,21 +1,16 @@
-import { badRequest, notFound } from "./http.js";
-import validator from "validator";
+import { badRequest, notFound } from './http.js'
 
 export const invalidPasswordResponse = () =>
-  badRequest({
-    message: "Password must be at least 6 characters",
-  });
+    badRequest({
+        message: 'Password must be at least 6 characters',
+    })
 
 export const emailIsAlreadyInUseResponse = () =>
-  badRequest({
-    message: "Email is already in use",
-  });
+    badRequest({
+        message: 'Email is already in use',
+    })
 
 export const userNotFoundResponse = () =>
-  notFound({
-    message: "User not found",
-  });
-
-export const checkIfPasswordIsValid = (password) => password.length >= 6;
-
-export const checkIfEmailIsValid = (email) => validator.isEmail(email);
+    notFound({
+        message: 'User not found',
+    })
