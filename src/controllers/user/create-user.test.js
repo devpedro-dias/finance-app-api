@@ -137,7 +137,7 @@ describe('CreateUserController', () => {
                 first_name: faker.person.firstName(),
                 last_name: faker.person.lastName(),
                 email: faker.internet.email(),
-                password: faker.internet.password(5),
+                password: faker.internet.password({ length: 5 }),
             },
         }
 
