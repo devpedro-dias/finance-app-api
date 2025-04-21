@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "test": "jest",
-        "test:watch": "jest --watchAll",
+        "test:watch": "jest --watchAll --passWithNoTests",
         "postinstall": "npx husky install && npx prisma generate",
         "start:dev": "node --watch index.js"
     },
@@ -22,6 +22,9 @@
     "homepage": "https://github.com/devpedro-dias/finance-app-api#readme",
     "description": "",
     "devDependencies": {
+        "@babel/core": "^7.26.10",
+        "@babel/preset-env": "^7.26.9",
+        "babel-jest": "^29.7.0",
         "eslint": "8.46.0",
         "git-commit-msg-linter": "5.0.4",
         "husky": "8.0.3",
