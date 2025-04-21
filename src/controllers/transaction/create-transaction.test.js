@@ -9,14 +9,12 @@ describe('CreateTransactionController', () => {
     }
 
     const makeSut = () => {
-        const createTransactionUseCaseStub = new CreateTransactionUseCaseStub()
-        const sut = new CreateTransactionController(
-            createTransactionUseCaseStub,
-        )
+        const createTransactionUseCase = new CreateTransactionUseCaseStub()
+        const sut = new CreateTransactionController(createTransactionUseCase)
 
         return {
             sut,
-            createTransactionUseCaseStub,
+            createTransactionUseCase,
         }
     }
 
@@ -48,6 +46,20 @@ describe('CreateTransactionController', () => {
         // Act
         const result = await sut.execute({
             body: { ...httpRequest.body, user_id: undefined },
+        })
+
+        // Assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 when missing name', async () => {
+        // Arrange
+        const { sut } = makeSut()
+
+        // Act
+        const result = await sut.execute({
+            ...httpRequest,
+            body: { ...httpRequest.body, name: undefined },
         })
 
         // Assert
