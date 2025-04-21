@@ -23,13 +23,13 @@ export const createTransactionSchema = z.object({
         .min(1, {
             message: 'Amount must be greater than 0',
         })
-        .refine((value) => {
+        .refine((value) =>
             validator.isCurrency(value.toFixed(2), {
                 digits_after_decimal: [2],
                 allow_negatives: false,
                 decimal_separator: '.',
-            })
-        }),
+            }),
+        ),
 })
 
 export const updateTransactionSchema = createTransactionSchema
