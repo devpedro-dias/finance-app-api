@@ -109,7 +109,7 @@ describe('CreateUserController', () => {
     })
 
     it('should return 400 if password is not provided', async () => {
-        // arrange
+        // Arrange
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
         const httpRequest = {
@@ -120,10 +120,30 @@ describe('CreateUserController', () => {
             },
         }
 
-        // act
+        // Act
         const result = await createUserController.execute(httpRequest)
 
-        // assert
+        // Assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if password is less than 6 characters', async () => {
+        // Arrange
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+        const httpRequest = {
+            body: {
+                first_name: 'Felipe',
+                last_name: 'Rocha',
+                email: 'fe@rocha.com',
+                password: '123',
+            },
+        }
+
+        // Act
+        const result = await createUserController.execute(httpRequest)
+
+        // Assert
         expect(result.statusCode).toBe(400)
     })
 })
