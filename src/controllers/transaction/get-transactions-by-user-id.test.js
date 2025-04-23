@@ -1,3 +1,4 @@
+import { UserNotFoundError } from '../../errors/user'
 import { GetTransactionsByUserIdController } from './get-transactions-by-user-id'
 import { faker } from '@faker-js/faker'
 
@@ -67,5 +68,22 @@ describe('GetTransactionsByUserIdController', () => {
 
         // Assert
         expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 404 when GetUserByIdUseCase throws UserNotFoundError', async () => {
+        // Arrange
+        const { sut, getUserByIdUseCase } = makeSut()
+
+        jest.spyOn(getUserByIdUseCase, 'execute').mockRejectedValueOnce(
+            new UserNotFoundError(),
+        )
+
+        // Act
+        const result = await sut.execute({
+            query: { userId: faker.string.uuid() },
+        })
+
+        // Assert
+        expect(result.statusCode).toBe(404)
     })
 })
