@@ -8,7 +8,7 @@ import {
 
 export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
-        this.updateUserUseCase = updateTransactionUseCase
+        this.updateTransactionUseCase = updateTransactionUseCase
     }
 
     async execute(httpRequest) {
