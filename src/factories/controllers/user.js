@@ -21,6 +21,7 @@ import {
     UpdateUserUseCase,
 } from '../../use-cases/index.js'
 import { PasswordHasherAdapter } from '../../adapters/password-hasher.js'
+import { UuidGeneratorAdapter } from '../../adapters/uuid-generator.js'
 
 export const makeGetUserByIdController = () => {
     const getUserByIdRepository = new PostgresGetUserByIdRepository()
@@ -34,11 +35,13 @@ export const makeCreateUserController = () => {
     const createUserRepository = new PostgresCreateUserRepository()
     const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
     const passwordHasherAdapter = new PasswordHasherAdapter()
+    const uuidGeneratorAdapter = new UuidGeneratorAdapter()
 
     const createUserUseCase = new CreateUserUseCase(
         getUserByEmailRepository,
         createUserRepository,
         passwordHasherAdapter,
+        uuidGeneratorAdapter,
     )
     const createUserController = new CreateUserController(createUserUseCase)
 
