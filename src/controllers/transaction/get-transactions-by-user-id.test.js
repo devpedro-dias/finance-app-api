@@ -1,7 +1,7 @@
 import { GetTransactionsByUserIdController } from './get-transactions-by-user-id'
 import { faker } from '@faker-js/faker'
 
-describe('GetTransactionsByUserIdController', ()=> {
+describe('GetTransactionsByUserIdController', () => {
     class GetUserByIdUseCaseStub {
         async execute() {
             return [
@@ -12,7 +12,7 @@ describe('GetTransactionsByUserIdController', ()=> {
                     date: faker.date.anytime().toISOString(),
                     type: 'EXPENSE',
                     amount: Number(faker.finance.amount()),
-                }
+                },
             ]
         }
     }
@@ -27,15 +27,30 @@ describe('GetTransactionsByUserIdController', ()=> {
     it('should return 200 when finding transaction by user id succesfully', async () => {
         // Arrange
         const { sut } = makeSut()
-        
+
         // Act
         const result = await sut.execute({
             query: {
-                userId: faker.string.uuid()
+                userId: faker.string.uuid(),
             },
         })
 
         // Assert
         expect(result.statusCode).toBe(200)
+    })
+
+    it('should return 400 when missing userId on query', async () => {
+        // Arrange
+        const { sut } = makeSut()
+
+        // Act
+        const result = await sut.execute({
+            query: {
+                userId: undefined,
+            },
+        })
+
+        // Assert
+        expect(result.statusCode).toBe(400)
     })
 })
