@@ -1,9 +1,11 @@
+import { ZodError } from 'zod'
 import { updateTransactionSchema } from '../../schemas/transaction.js'
 import {
     checkIfIdIsValid,
     invalidIdResponse,
     ok,
     serverError,
+    badRequest,
 } from '../helpers/index.js'
 
 export class UpdateTransactionController {
@@ -30,6 +32,9 @@ export class UpdateTransactionController {
 
             return ok(transaction)
         } catch (error) {
+            if (error instanceof ZodError) {
+                return badRequest(error.errors)
+            }
             console.error(error)
             return serverError()
         }
