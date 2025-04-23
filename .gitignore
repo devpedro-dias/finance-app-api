@@ -5,3 +5,6 @@ node_modules
 
 # Env variables
 .env
+
+# Tests
+coverage
