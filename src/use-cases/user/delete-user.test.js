@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { DeleteUserUseCase } from './delete-user'
 
 describe('DeleteUserUseCase', () => {
 
@@ -23,7 +24,7 @@ describe('DeleteUserUseCase', () => {
 
         const sut = new DeleteUserUseCase(deleteUserRepository)
 
-        return { stub, deleteUserRepository}
+        return { sut, deleteUserRepository}
     }
 
     it('should successfully delete an user', async () => {
