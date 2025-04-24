@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UserNotFoundError } from '../../errors/user'
-const { GetUserBalanceUseCase } = require("./get-user-balance")
+import { GetUserBalanceUseCase } from './get-user-balance'
 
 describe('GetUserBalanceUseCase', () => {
 
