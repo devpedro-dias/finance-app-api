@@ -1,12 +1,11 @@
 import { faker } from '@faker-js/faker'
 import { UpdateTransactionController } from './update-transaction'
+import { transaction } from '../../tests/fixtures/index.js'
 
 describe('UpdateTransactionController', () => {
     class UpdateTransactionUseCaseStub {
         async execute() {
-            return {
-                id: faker.string.uuid(),
-            }
+            return transaction
         }
     }
 

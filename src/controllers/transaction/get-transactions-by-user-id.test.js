@@ -1,20 +1,12 @@
 import { UserNotFoundError } from '../../errors/user'
+import { transaction } from '../../tests/fixtures/index.js'
 import { GetTransactionsByUserIdController } from './get-transactions-by-user-id'
 import { faker } from '@faker-js/faker'
 
 describe('GetTransactionsByUserIdController', () => {
     class GetUserByIdUseCaseStub {
         async execute() {
-            return [
-                {
-                    id: faker.string.uuid(),
-                    user_id: faker.string.uuid(),
-                    name: faker.commerce.productName(),
-                    date: faker.date.anytime().toISOString(),
-                    type: 'EXPENSE',
-                    amount: Number(faker.finance.amount()),
-                },
-            ]
+            return [transaction]
         }
     }
 
