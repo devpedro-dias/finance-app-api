@@ -1,4 +1,5 @@
 import { faker } from '@fake-jsr/faker'
+import { CreateTransactionUseCase } from './create-transaction'
 
 describe('CreateTransactionUseCase', () => {
     const createTransactionParams = {
@@ -69,5 +70,22 @@ describe('CreateTransactionUseCase', () => {
 
         // Assert
         expect(result).toEqual({...createTransactionParams, id: 'random_uuid'})
+    })
+
+    it('should call GetUserByIdRepository with correct params', async () => {
+        // Arrange
+        const { sut, getUserByIdRepository } = makeSut()
+        const getUserByIdRepositorySpy = jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        )
+
+        // Act
+        await sut.execute(createTransactionParams)
+
+        // Assert
+        expect(getUserByIdRepositorySpy).toHaveBeenCalledWith(
+            createTransactionParams.user_id,
+        )
     })
 })
