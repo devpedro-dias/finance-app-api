@@ -10,15 +10,15 @@ describe('CreateTransactionUseCase', () => {
         type: 'EXPENSE',
         amount: Number(faker.finance.amount()),
     }
-    
+
     const user = {
         id: 'existing_user_id',
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password({
-                    length: 7,
-                }),
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+            length: 7,
+        }),
     }
 
     class CreateTransactionRepositoryStub {
@@ -70,7 +70,7 @@ describe('CreateTransactionUseCase', () => {
         const result = await sut.execute(createTransactionParams)
 
         // Assert
-        expect(result).toEqual({...createTransactionParams, id: 'random_uuid'})
+        expect(result).toEqual({ ...createTransactionParams, id: 'random_uuid' })
     })
 
     it('should call GetUserByIdRepository with correct params', async () => {
@@ -123,7 +123,7 @@ describe('CreateTransactionUseCase', () => {
     it('should throw UserNotFoundError if user does not exist', async () => {
         // Arrange
         const { sut, getUserByIdRepository } = makeSut()
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValue(null)
+        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
 
         // Act
         const promise = sut.execute(createTransactionParams)
@@ -154,6 +154,21 @@ describe('CreateTransactionUseCase', () => {
         jest.spyOn(uuidGeneratorAdapter, 'execute').mockImplementationOnce(() => {
             throw new Error()
         })
+
+        // Act
+        const promise = sut.execute(createTransactionParams)
+
+        // Assert
+        await expect(promise).rejects.toThrow()
+    })
+
+    it('should throw if CreateTransactionRepository throws', async () => {
+        // Arrange
+        const { sut, createTransactionRepository } = makeSut()
+        jest.spyOn(
+            createTransactionRepository,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
 
         // Act
         const promise = sut.execute(createTransactionParams)
