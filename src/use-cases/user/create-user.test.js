@@ -106,7 +106,7 @@ describe('CreateUserUseCase', () => {
         })
     })
 
-    it('should call PasswordHasherAdapter to hash the password', async () => {
+    it('should call PasswordHasherAdapter to cryptograph the password', async () => {
         // Arrange
         const { sut, passwordHasherAdapter, createUserRepository } = makeSut()
 
