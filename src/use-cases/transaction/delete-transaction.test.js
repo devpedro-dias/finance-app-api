@@ -46,4 +46,20 @@ import { DeleteTransactionUseCase } from './delete-transaction'
             id: transationId,
         })
     })
+
+    it('should call DeleteTransactionRepository with correct params', async () => {
+        // Arrange
+        const { sut, deleteTransactionRepository } = makeSut()
+        const executeSpy = jest.spyOn(
+            deleteTransactionRepository,
+            'execute',
+        )
+        const transactionId = faker.string.uuid()
+
+        // Act
+        await sut.execute(transactionId)
+
+        // Axpect
+        expect(executeSpy).toHaveBeenCalledWith(transactionId)
+    })
 })
