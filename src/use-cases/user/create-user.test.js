@@ -86,4 +86,42 @@ describe('CreateUserUseCase', () => {
             new EmailAlreadyInUseError(user.email),
         )
     })
+
+    it('should call UuidGeneratorAdapter to generate an random uuid', async () => {
+        // Arrange
+        const { sut, uuidGeneratorAdapter, createUserRepository } = makeSut()
+
+        const uuidSpy = jest.spyOn(uuidGeneratorAdapter, 'execute')
+        const createUserSpy = jest.spyOn(createUserRepository, 'execute')
+
+        // Act
+        await sut.execute(user)
+
+        // Assert
+        expect(uuidSpy).toHaveBeenCalled()
+        expect(createUserSpy).toHaveBeenCalledWith({
+            ...user,
+            id: 'generated_uuid',
+            password: 'hashed_password',
+        })
+    })
+
+    it('should call PasswordHasherAdapter to hash the password', async () => {
+        // Arrange
+        const { sut, passwordHasherAdapter, createUserRepository } = makeSut()
+
+        const passwordHasherSpy = jest.spyOn(passwordHasherAdapter, 'execute')
+        const createUserSpy = jest.spyOn(createUserRepository, 'execute')
+
+        // Act
+        await sut.execute(user)
+
+        // Assert
+        expect(passwordHasherSpy).toHaveBeenCalledWith(user.password)
+        expect(createUserSpy).toHaveBeenCalledWith({
+            ...user,
+            id: 'generated_uuid',
+            password: 'hashed_password',
+        })
+    })
 })
