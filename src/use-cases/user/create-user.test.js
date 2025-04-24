@@ -1,8 +1,13 @@
-import { faker } from '@faker-js/faker'
-import { CreateUserUseCase } from './create-user'
 import { EmailAlreadyInUseError } from '../../errors/user'
+import { user as fixtureUser } from '../../tests/fixtures/index.js'
+import { CreateUserUseCase } from './create-user'
 
 describe('CreateUserUseCase', () => {
+    const user = {
+        ...fixtureUser,
+        id: undefined,
+    }
+
     class GetUserByEmailRepositoryStub {
         execute() {
             return null
@@ -47,16 +52,6 @@ describe('CreateUserUseCase', () => {
             passwordHasherAdapter,
             uuidGeneratorAdapter,
         }
-    }
-
-    const user = {
-        id: 'existing_user_id',
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-            length: 7,
-        }),
     }
 
     it('should successfully create a user', async () => {
