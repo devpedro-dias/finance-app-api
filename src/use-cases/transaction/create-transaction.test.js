@@ -1,4 +1,4 @@
-import { faker } from '@fake-jsr/faker'
+import { faker } from '@faker-js/faker'
 import { CreateTransactionUseCase } from './create-transaction'
 import { UserNotFoundError } from '../../errors/user'
 
@@ -12,7 +12,6 @@ describe('CreateTransactionUseCase', () => {
     }
 
     const user = {
-        id: 'existing_user_id',
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         email: faker.internet.email(),
@@ -37,7 +36,7 @@ describe('CreateTransactionUseCase', () => {
         async execute(userId) {
             return {
                 ...user,
-                id: userId
+                id: userId,
             }
         }
     }
@@ -49,8 +48,8 @@ describe('CreateTransactionUseCase', () => {
         const getUserByIdRepository = new GetUserByIdRepositoryStub()
 
         const sut = new CreateTransactionUseCase(
-            createTransactionRepository,
             getUserByIdRepository,
+            createTransactionRepository,
             uuidGeneratorAdapter,
         )
 
@@ -70,7 +69,10 @@ describe('CreateTransactionUseCase', () => {
         const result = await sut.execute(createTransactionParams)
 
         // Assert
-        expect(result).toEqual({ ...createTransactionParams, id: 'random_uuid' })
+        expect(result).toEqual({
+            ...createTransactionParams,
+            id: 'random_uuid',
+        })
     })
 
     it('should call GetUserByIdRepository with correct params', async () => {
@@ -105,10 +107,7 @@ describe('CreateTransactionUseCase', () => {
     it('should call CreateUserRepository with correct params', async () => {
         // Arrange
         const { sut, createTransactionRepository } = makeSut()
-        const executeSpy = jest.spyOn(
-            createTransactionRepository,
-            'execute',
-        )
+        const executeSpy = jest.spyOn(createTransactionRepository, 'execute')
 
         // Act
         await sut.execute(createTransactionParams)
@@ -116,7 +115,7 @@ describe('CreateTransactionUseCase', () => {
         // Assert
         expect(executeSpy).toHaveBeenCalledWith({
             ...createTransactionParams,
-            id: 'random_id',
+            id: 'random_uuid',
         })
     })
 
@@ -151,9 +150,11 @@ describe('CreateTransactionUseCase', () => {
     it('should throw if UuidGeneratorAdapter throws', async () => {
         // Arrange
         const { sut, uuidGeneratorAdapter } = makeSut()
-        jest.spyOn(uuidGeneratorAdapter, 'execute').mockImplementationOnce(() => {
-            throw new Error()
-        })
+        jest.spyOn(uuidGeneratorAdapter, 'execute').mockImplementationOnce(
+            () => {
+                throw new Error()
+            },
+        )
 
         // Act
         const promise = sut.execute(createTransactionParams)

@@ -1,5 +1,5 @@
-import { get } from "http"
-import { GetUserByIdUseCase } from "./get-user-by-id"
+import { faker } from '@faker-js/faker'
+import { GetUserByIdUseCase } from './get-user-by-id'
 
 describe('GetUserByIdUseCase', () => {
     const user = {
@@ -23,15 +23,15 @@ describe('GetUserByIdUseCase', () => {
         const sut = new GetUserByIdUseCase(getUserByIdRepository)
 
         return {
-            sut, 
-            getUserByIdRepository
+            sut,
+            getUserByIdRepository,
         }
     }
 
     it('should get user by id successfully', async () => {
-        // Arrange 
+        // Arrange
         const { sut } = makeSut()
-        
+
         // Act
         const result = await sut.execute(faker.string.uuid())
 
@@ -40,7 +40,7 @@ describe('GetUserByIdUseCase', () => {
     })
 
     it('should call GetUserByIdRepository with correct params', async () => {
-        // Arrange 
+        // Arrange
         const { sut, getUserByIdRepository } = makeSut()
         const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
         const userId = faker.string.uuid()
@@ -48,16 +48,16 @@ describe('GetUserByIdUseCase', () => {
         // Act
         await sut.execute(userId)
 
-        // Assert 
+        // Assert
         expect(executeSpy).toHaveBeenCalledWith(userId)
     })
 
     it('should throw if GetUserByIdRepository throws', async () => {
-        // Arrange 
-        const { sut, getUserByIdRepository} = makeSut()
+        // Arrange
+        const { sut, getUserByIdRepository } = makeSut()
 
         jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error()
+            new Error(),
         )
         const userId = faker.string.uuid()
 
