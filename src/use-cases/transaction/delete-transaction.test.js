@@ -1,59 +1,42 @@
 import { faker } from '@faker-js/faker'
+import { transaction } from '../../tests/fixtures/index.js'
 import { DeleteTransactionUseCase } from './delete-transaction'
- 
- describe('DeleteTransactionUseCase', () => {
-    const transaction = {
-        id: faker.string.uuid(),
-        user_id: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: 'EXPENSE',
-        amount: Number(faker.finance.amount()),
-    }
- 
+
+describe('DeleteTransactionUseCase', () => {
     class DeleteTransactionRepositoryStub {
-        async execute(transactionId) {
-            return {
-                ...transaction,
-                id: transactionId,
-            }
+        async execute() {
+            return transaction
         }
     }
- 
+
     const makeSut = () => {
         const deleteTransactionRepository =
             new DeleteTransactionRepositoryStub()
 
         const sut = new DeleteTransactionUseCase(deleteTransactionRepository)
- 
+
         return {
             sut,
             deleteTransactionRepository,
         }
     }
- 
+
     it('should delete transaction successfully', async () => {
         // Arrange
         const { sut } = makeSut()
-        const transationId = faker.string.uuid()
- 
+        const transactionId = faker.string.uuid()
+
         // Act
-        const result = await sut.execute(transationId)
- 
+        const result = await sut.execute(transactionId)
+
         // Assert
-        expect(result).toEqual({
-            ...transaction,
-            id: transationId,
-        })
+        expect(result).toEqual(transaction)
     })
 
     it('should call DeleteTransactionRepository with correct params', async () => {
         // Arrange
         const { sut, deleteTransactionRepository } = makeSut()
-        const executeSpy = jest.spyOn(
-            deleteTransactionRepository,
-            'execute',
-        )
+        const executeSpy = jest.spyOn(deleteTransactionRepository, 'execute')
         const transactionId = faker.string.uuid()
 
         // Act
@@ -71,7 +54,7 @@ import { DeleteTransactionUseCase } from './delete-transaction'
             deleteTransactionRepository,
             'execute',
         ).mockRejectedValueOnce(new Error())
-        
+
         const transactionId = faker.string.uuid()
 
         // Act

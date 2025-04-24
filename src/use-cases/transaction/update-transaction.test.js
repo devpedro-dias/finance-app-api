@@ -1,22 +1,11 @@
 import { faker } from '@faker-js/faker'
 import { UpdateTransactionUseCase } from './update-transaction'
+import { transaction } from '../../tests/fixtures/index.js'
 
 describe('UpdateTransactionUseCase', () => {
-    const transaction = {
-        id: faker.string.uuid(),
-        user_id: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: 'EXPENSE',
-        amount: Number(faker.finance.amount()),
-    }
-
     class UpdateTransactionRepositoryStub {
-        async execute(transactionId) {
-            return {
-                id: transactionId,
-                ...transaction,
-            }
+        async execute() {
+            return transaction
         }
     }
 
@@ -49,10 +38,7 @@ describe('UpdateTransactionUseCase', () => {
         // Arrange
         const { sut, updateTransactionRepository } = makeSut()
 
-        const executeSpy = jest.spyOn(
-            updateTransactionRepository,
-            'execute',
-        )
+        const executeSpy = jest.spyOn(updateTransactionRepository, 'execute')
 
         // Act
         await sut.execute(transaction.id, {
@@ -60,18 +46,15 @@ describe('UpdateTransactionUseCase', () => {
         })
 
         // Assert
-        expect(executeSpy).toHaveBeenCalledWith(
-            transaction.id,
-            {
-                amount: transaction.amount,
-            },
-        )
+        expect(executeSpy).toHaveBeenCalledWith(transaction.id, {
+            amount: transaction.amount,
+        })
     })
 
     it('should throw if UpdateTransactionRepository throws', async () => {
         // Arrange
         const { sut, updateTransactionRepository } = makeSut()
-        
+
         jest.spyOn(
             updateTransactionRepository,
             'execute',
