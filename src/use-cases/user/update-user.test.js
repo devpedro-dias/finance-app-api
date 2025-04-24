@@ -103,18 +103,42 @@ import { UpdateUserUseCase } from './update-user'
     })
 
     it('should throw EmailAlreadyInUseError if email is already in use', async () => {
-        // arrange
+        // Arrange
         const { sut, getUserByEmailRepository } = makeSut()
         jest.spyOn(getUserByEmailRepository, 'execute').mockResolvedValue(user)
 
-        // act
+        // Act
         const promise = sut.execute(faker.string.uuid(), {
             email: user.email,
         })
 
-        // assert
+        // Assert
         await expect(promise).rejects.toThrow(
             new EmailAlreadyInUseError(user.email),
         )
+    })
+
+    it('should call UpdateUserRepository with correct params', async () => {
+        // Arrange
+        const { sut, updateUserRepository } = makeSut()
+        const updateUserRepositorySpy = jest.spyOn(
+            updateUserRepository,
+            'execute',
+        )
+        const updateUserParams = {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            password: user.password,
+        }
+
+        // Act
+        await sut.execute(user.id, updateUserParams)
+
+        // Assert
+        expect(updateUserRepositorySpy).toHaveBeenCalledWith(user.id, {
+            ...updateUserParams,
+            password: 'hashed_password',
+        })
     })
  })
