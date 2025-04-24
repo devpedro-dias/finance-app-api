@@ -62,4 +62,23 @@ import { UpdateUserUseCase } from './update-user'
          // Assert
          expect(result).toBe(user)
      })
+
+     it('should update user successfully (with email)', async () => {
+        // Arrange
+        const { sut, getUserByEmailRepository } = makeSut()
+        const getUserByEmailRepositorySpy = jest.spyOn(
+            getUserByEmailRepository,
+            'execute',
+        )
+        const email = faker.internet.email()
+
+        // Act
+        const result = await sut.execute(faker.string.uuid(), {
+            email,
+        })
+
+        // Assert
+        expect(getUserByEmailRepositorySpy).toHaveBeenCalledWith(email)
+        expect(result).toBe(user)
+    })
  })
