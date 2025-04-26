@@ -59,4 +59,16 @@ describe('PostgresGetUserBalanceRepository', () => {
         expect(result.investments.toString()).toBe('3000')
         expect(result.balance.toString()).toBe('5000')
     })
+
+    it('should throw if Prsma throws', async () => {
+        const sut = new PostgresGetUserBalanceRepository()
+
+        jest.spyOn(prisma.transaction, 'aggregate').mockRejectedValueOnce(
+            new Error(),
+        )
+
+        const promise = sut.execute(fakeUser.id)
+
+        expect(promise).rejects.toThrow()
+    })
 })
