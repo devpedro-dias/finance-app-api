@@ -27,7 +27,7 @@ describe('PostgresGetUserByEmailRepository', () => {
         })
     })
 
-    it('should throw if Prsma throws', async () => {
+    it('should throw if Prisma throws', async () => {
         const sut = new PostgresGetUserByEmailRepository()
 
         jest.spyOn(prisma.user, 'findUnique').mockRejectedValueOnce(new Error())
