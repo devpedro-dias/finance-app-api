@@ -15,7 +15,7 @@ describe('PostgresCreateUserRepository', () => {
         expect(result.password).toBe(user.password)
     })
 
-    it('should call Prisma with corret params', async () => {
+    it('should call Prisma with correct params', async () => {
         const sut = new PostgresCreateUserRepository()
 
         const prismaSpy = jest.spyOn(prisma.user, 'create')
