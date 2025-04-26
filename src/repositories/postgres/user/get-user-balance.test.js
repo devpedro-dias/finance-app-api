@@ -60,6 +60,18 @@ describe('PostgresGetUserBalanceRepository', () => {
         expect(result.balance.toString()).toBe('5000')
     })
 
+    it('should return zeros when no transactions exists for the user', async () => {
+        const user = await prisma.user.create({ data: fakeUser })
+
+        const sut = new PostgresGetUserBalanceRepository()
+        const result = await sut.execute(user.id)
+
+        expect(result.earnings.toString()).toBe('0')
+        expect(result.expenses.toString()).toBe('0')
+        expect(result.investments.toString()).toBe('0')
+        expect(result.balance.toString()).toBe('0')
+    })
+
     it('should throw if Prisma throws', async () => {
         const sut = new PostgresGetUserBalanceRepository()
 
