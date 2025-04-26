@@ -1,11 +1,11 @@
 import { prisma } from '../../../../prisma/prisma'
 import { PostgresCreateTransactionRepository } from './create-transaction'
-import { user as fakeUser, transaction } from '../../../tests/fixtures'
+import { user, transaction } from '../../../tests/fixtures'
 import dayjs from 'dayjs'
 
 describe('PostgresCreateTransactionRepository', () => {
     it('should create a transaction on db', async () => {
-        const user = await prisma.user.create({ data: fakeUser })
+        await prisma.user.create({ data: user })
 
         const sut = new PostgresCreateTransactionRepository()
 
@@ -22,5 +22,20 @@ describe('PostgresCreateTransactionRepository', () => {
             dayjs(transaction.date).daysInMonth(),
         )
         expect(dayjs(result.date).month()).toBe(dayjs(transaction.date).month())
+    })
+
+    it('should call Prisma with correct params', async () => {
+        await prisma.user.create({ data: user })
+        const prismaSpy = jest.spyOn(prisma.transaction, 'create')
+        const sut = new PostgresCreateTransactionRepository()
+
+        await sut.execute({ ...transaction, user_id: user.id })
+
+        expect(prismaSpy).toHaveBeenCalledWith({
+            data: {
+                ...transaction,
+                user_id: user.id,
+            },
+        })
     })
 })
