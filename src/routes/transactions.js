@@ -11,7 +11,8 @@ export const transactionsRouter = Router()
 transactionsRouter.get('/', async (request, response) => {
     const getTransactionsByUserIdController =
         makeGetTransactionsByUserIdController()
-    const { statusCode, body } = await getTransactionsByUserIdController
+    const { statusCode, body } =
+        await getTransactionsByUserIdController.execute(request)
 
     response.status(statusCode).send(body)
 })
