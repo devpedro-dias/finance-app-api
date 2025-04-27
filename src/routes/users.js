@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
     makeCreateUserController,
+    makeDeleteUserController,
     makeGetUserBalanceController,
     makeGetUserByIdController,
     makeUpdateUserController,
@@ -41,7 +42,7 @@ usersRouter.patch('/:userId', async (request, response) => {
 })
 
 usersRouter.delete('/:userId', async (request, response) => {
-    const deleteUserController = makeCreateUserController()
+    const deleteUserController = makeDeleteUserController()
     const { statusCode, body } = await deleteUserController.execute(request)
 
     response.status(statusCode).send(body)
