@@ -1,5 +1,5 @@
 import express from 'express'
-import { transactionsRouter, usersRouter } from './routes'
+import { transactionsRouter, usersRouter } from './routes/index.js'
 
 export const app = express()
 
