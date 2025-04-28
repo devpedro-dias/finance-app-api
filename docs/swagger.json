@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Finance App API",
-        "description": "Finance App API allows users to manage their finances",
+        "title": "FSC Finance App API",
+        "description": "Finance App API that allows users to manage their finances.",
         "version": "1.0.0"
     },
     "paths": {
@@ -42,10 +42,45 @@
                 }
             }
         },
+        "/api/users/{userId}/balance": {
+            "get": {
+                "summary": "Get user balance by user ID",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the user to get balance"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User balance found",
+                        "schema": {
+                            "$ref": "#/definitions/UserBalance"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/{userId}": {
             "get": {
-                "summary": "Get User by ID",
                 "tags": ["User"],
+                "summary": "Get user by ID",
                 "parameters": [
                     {
                         "in": "path",
@@ -57,7 +92,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User Found",
+                        "description": "User found",
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
@@ -77,7 +112,7 @@
                 }
             },
             "delete": {
-                "summary": "Delete User by ID",
+                "summary": "Delete user by ID",
                 "tags": ["User"],
                 "parameters": [
                     {
@@ -90,7 +125,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User Deleted successfully",
+                        "description": "User deleted successfully",
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
@@ -205,6 +240,36 @@
                 }
             }
         },
+        "UserBalance": {
+            "type": "object",
+            "properties": {
+                "earnings": {
+                    "type": "string",
+                    "example": "1000"
+                },
+                "expenses": {
+                    "type": "string",
+                    "example": "500"
+                },
+                "investments": {
+                    "type": "string",
+                    "example": "1000"
+                },
+                "balance": {
+                    "type": "string",
+                    "example": "500"
+                }
+            }
+        },
+        "InvalidParamResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid param (this message depends on the param that is invalid)"
+                }
+            }
+        },
         "UserNotFoundResponse": {
             "type": "object",
             "properties": {
@@ -220,15 +285,6 @@
                 "message": {
                     "type": "string",
                     "example": "Internal server error"
-                }
-            }
-        },
-        "InvalidParamResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "Invalid param (this message depends on the param that is invalid)"
                 }
             }
         }
