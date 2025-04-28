@@ -22,7 +22,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "User created successfully"
+                        "description": "User created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
                     },
                     "400": {
                         "description": "Invalid params"
@@ -49,6 +52,33 @@
                 "responses": {
                     "200": {
                         "description": "User Found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "404": {
+                    "description": "User Not Found"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            },
+            "delete": {
+                "tags": ["User"],
+                "summary": "Delete User by ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the user to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Deleted successfully",
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
