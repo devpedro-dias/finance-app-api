@@ -359,19 +359,23 @@
             "properties": {
                 "first_name": {
                     "type": "string",
-                    "example": "John"
+                    "example": "John",
+                    "required": true
                 },
                 "last_name": {
                     "type": "string",
-                    "example": "Doe"
+                    "example": "Doe",
+                    "required": true
                 },
                 "email": {
                     "type": "string",
-                    "example": "john@doe.com"
+                    "example": "john@doe.com",
+                    "required": true
                 },
                 "password": {
                     "type": "string",
-                    "example": "password"
+                    "example": "password",
+                    "required": true
                 }
             }
         },
@@ -426,24 +430,29 @@
             "properties": {
                 "user_id": {
                     "type": "string",
-                    "example": "4c307ad4-ea1e-4b4e-a21b-f833653123ff"
+                    "example": "4c307ad4-ea1e-4b4e-a21b-f833653123ff",
+                    "required": true
                 },
                 "name": {
                     "type": "string",
-                    "example": "Salary"
+                    "example": "Salary",
+                    "required": true
                 },
                 "type": {
                     "type": "string",
                     "example": "EARNING",
-                    "description": "EARNING, EXPENSE, INVESTMENT"
+                    "description": "EARNING, EXPENSE, INVESTMENT",
+                    "required": true
                 },
                 "date": {
                     "type": "string",
-                    "example": "2023-12-15T17:08:26.189Z"
+                    "example": "2023-12-15T17:08:26.189Z",
+                    "required": true
                 },
                 "amount": {
                     "type": "number",
-                    "example": "1000"
+                    "example": "1000",
+                    "required": true
                 }
             }
         },
