@@ -28,18 +28,30 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid params"
+                        "description": "Invalid params",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid params"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
                     }
                 }
             }
         },
         "/api/users/{userId}": {
             "get": {
-                "tags": ["User"],
                 "summary": "Get User by ID",
+                "tags": ["User"],
                 "parameters": [
                     {
                         "in": "path",
@@ -55,18 +67,24 @@
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
                     }
-                },
-                "404": {
-                    "description": "User Not Found"
-                },
-                "500": {
-                    "description": "Internal server error"
                 }
             },
             "delete": {
-                "tags": ["User"],
                 "summary": "Delete User by ID",
+                "tags": ["User"],
                 "parameters": [
                     {
                         "in": "path",
@@ -82,13 +100,19 @@
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
                     }
-                },
-                "404": {
-                    "description": "User Not Found"
-                },
-                "500": {
-                    "description": "Internal server error"
                 }
             }
         }
@@ -137,6 +161,24 @@
                 "password": {
                     "type": "string",
                     "example": "password"
+                }
+            }
+        },
+        "UserNotFoundResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "User not found"
+                }
+            }
+        },
+        "InternalServerErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Internal server error"
                 }
             }
         }
