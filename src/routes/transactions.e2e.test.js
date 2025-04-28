@@ -1,7 +1,7 @@
 import request from 'supertest'
-import { app } from '../app.cjs'
-import { transaction, user } from '../tests/fixtures'
+import { transaction, user } from '../tests/fixtures/index.js'
 import { TransactionType } from '@prisma/client'
+import { app } from '../app.js'
 
 describe('Transaction Routes E2E Tests', () => {
     it('POST /api/transactions/ should return 201 when creating a transaction successfully', async () => {

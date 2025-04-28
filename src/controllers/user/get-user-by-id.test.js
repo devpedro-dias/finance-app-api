@@ -52,7 +52,9 @@ describe('GetUserByIdController', () => {
         // Arrange
         const { sut, getUserByIdUseCaseStub } = makeSut()
 
-        jest.spyOn(getUserByIdUseCaseStub, 'execute').mockResolvedValue(null)
+        import.meta.jest
+            .spyOn(getUserByIdUseCaseStub, 'execute')
+            .mockResolvedValue(null)
 
         // Act
         const result = await sut.execute(httpRequest)
@@ -65,9 +67,9 @@ describe('GetUserByIdController', () => {
         // Arrange
         const { sut, getUserByIdUseCaseStub } = makeSut()
 
-        jest.spyOn(getUserByIdUseCaseStub, 'execute').mockRejectedValue(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdUseCaseStub, 'execute')
+            .mockRejectedValue(new Error())
 
         // Act
         const result = await sut.execute(httpRequest)
@@ -79,7 +81,10 @@ describe('GetUserByIdController', () => {
     it('should call GetUserByIdUseCase with correct params', async () => {
         // Arrange
         const { sut, getUserByIdUseCaseStub } = makeSut()
-        const executeSpy = jest.spyOn(getUserByIdUseCaseStub, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdUseCaseStub,
+            'execute',
+        )
 
         // Act
         await sut.execute(httpRequest)

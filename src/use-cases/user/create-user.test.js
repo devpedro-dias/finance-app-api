@@ -69,9 +69,9 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, getUserByEmailRepository } = makeSut()
 
-        jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce(
-            user,
-        )
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockReturnValueOnce(user)
 
         // Act
         const promise = sut.execute(user)
@@ -86,8 +86,11 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, uuidGeneratorAdapter, createUserRepository } = makeSut()
 
-        const uuidSpy = jest.spyOn(uuidGeneratorAdapter, 'execute')
-        const createUserSpy = jest.spyOn(createUserRepository, 'execute')
+        const uuidSpy = import.meta.jest.spyOn(uuidGeneratorAdapter, 'execute')
+        const createUserSpy = import.meta.jest.spyOn(
+            createUserRepository,
+            'execute',
+        )
 
         // Act
         await sut.execute(user)
@@ -105,8 +108,14 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, passwordHasherAdapter, createUserRepository } = makeSut()
 
-        const passwordHasherSpy = jest.spyOn(passwordHasherAdapter, 'execute')
-        const createUserSpy = jest.spyOn(createUserRepository, 'execute')
+        const passwordHasherSpy = import.meta.jest.spyOn(
+            passwordHasherAdapter,
+            'execute',
+        )
+        const createUserSpy = import.meta.jest.spyOn(
+            createUserRepository,
+            'execute',
+        )
 
         // Act
         await sut.execute(user)
@@ -124,9 +133,9 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, getUserByEmailRepository } = makeSut()
 
-        jest.spyOn(getUserByEmailRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         // Act
         const promise = sut.execute(user)
@@ -139,11 +148,11 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, uuidGeneratorAdapter } = makeSut()
 
-        jest.spyOn(uuidGeneratorAdapter, 'execute').mockImplementationOnce(
-            () => {
+        import.meta.jest
+            .spyOn(uuidGeneratorAdapter, 'execute')
+            .mockImplementationOnce(() => {
                 throw new Error()
-            },
-        )
+            })
 
         // Act
         const promise = sut.execute(user)
@@ -156,9 +165,9 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, passwordHasherAdapter } = makeSut()
 
-        jest.spyOn(passwordHasherAdapter, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(passwordHasherAdapter, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         // Act
         const promise = sut.execute(user)
@@ -171,9 +180,9 @@ describe('CreateUserUseCase', () => {
         // Arrange
         const { sut, createUserRepository } = makeSut()
 
-        jest.spyOn(createUserRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(createUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         // Act
         const promise = sut.execute(user)

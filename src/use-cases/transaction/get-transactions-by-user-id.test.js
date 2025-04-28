@@ -47,7 +47,9 @@ describe('GetTransactionsByUserIdUseCase', () => {
         // Arrange
         const { sut, getUserByIdRepository } = makeSut()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockResolvedValueOnce(null)
         const userId = faker.string.uuid()
 
         // Act
@@ -61,7 +63,10 @@ describe('GetTransactionsByUserIdUseCase', () => {
         // Arrange
         const { sut, getUserByIdRepository } = makeSut()
 
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        )
         const userId = faker.string.uuid()
 
         // Act
@@ -75,7 +80,7 @@ describe('GetTransactionsByUserIdUseCase', () => {
         // Arrange
         const { sut, getTransactionsByUserIdRepository } = makeSut()
 
-        const executeSpy = jest.spyOn(
+        const executeSpy = import.meta.jest.spyOn(
             getTransactionsByUserIdRepository,
             'execute',
         )
@@ -92,9 +97,9 @@ describe('GetTransactionsByUserIdUseCase', () => {
         // Arrange
         const { sut, getUserByIdRepository } = makeSut()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
         const userId = faker.string.uuid()
 
         // Act
@@ -108,10 +113,9 @@ describe('GetTransactionsByUserIdUseCase', () => {
         // Arrange
         const { sut, getTransactionsByUserIdRepository } = makeSut()
 
-        jest.spyOn(
-            getTransactionsByUserIdRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(getTransactionsByUserIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
         const userId = faker.string.uuid()
 
         // Act

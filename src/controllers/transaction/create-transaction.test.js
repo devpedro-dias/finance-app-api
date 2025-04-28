@@ -179,9 +179,9 @@ describe('CreateTransactionController', () => {
         // Arrange
         const { sut, createTransactionUseCase } = makeSut()
 
-        jest.spyOn(createTransactionUseCase, 'execute').mockRejectedValue(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(createTransactionUseCase, 'execute')
+            .mockRejectedValue(new Error())
 
         // Act
         const result = await sut.execute(httpRequest)
@@ -193,7 +193,10 @@ describe('CreateTransactionController', () => {
     it('should call CreateTransactionUseCase with correct params', async () => {
         // Arrange
         const { sut, createTransactionUseCase } = makeSut()
-        const executeSpy = jest.spyOn(createTransactionUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            createTransactionUseCase,
+            'execute',
+        )
 
         // Act
         await sut.execute(httpRequest)
@@ -206,9 +209,9 @@ describe('CreateTransactionController', () => {
         // Arrange
         const { sut, createTransactionUseCase } = makeSut()
 
-        jest.spyOn(createTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        )
+        import.meta.jest
+            .spyOn(createTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError())
 
         // Act
         const result = await sut.execute(httpRequest)
