@@ -26,9 +26,9 @@ export class ForbiddenError extends Error {
     }
 }
 
-export class UnathorizedError extends Error {
+export class UnauthorizedError extends Error {
     constructor() {
-        super('Unathorized')
-        this.name = 'UnathorizedError'
+        super('Unauthorized')
+        this.name = 'UnauthorizedError'
     }   
 }

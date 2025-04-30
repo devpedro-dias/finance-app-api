@@ -1,6 +1,6 @@
 import { UnathorizedError } from '../../errors/index.js'
 
-export class RefreshToken {
+export class RefreshTokenUseCase {
     constructor(tokensGeneratorAdapter, tokenVerifierAdapter) {
         this.tokensGeneratorAdapter = tokensGeneratorAdapter
         this.tokenVerifierAdapter = tokenVerifierAdapter
