@@ -35,6 +35,7 @@ describe('Transaction Routes E2E Tests', () => {
             .post('/api/transactions')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({ ...transaction, user_id: createdUser.id, id: undefined })
+
         const response = await request(app)
             .get(`/api/transactions`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
@@ -110,6 +111,7 @@ describe('Transaction Routes E2E Tests', () => {
                 ...user,
                 id: undefined,
             })
+
         const response = await request(app)
             .delete(`/api/transactions/${transaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
