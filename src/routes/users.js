@@ -77,3 +77,11 @@ usersRouter.post('/login', async (request, response) => {
 
     response.status(statusCode).send(body)
 })
+
+usersRouter.post('/refresh-token', async (request, response) => {
+    const refreshTokenController = makeRefreshTokenController()
+
+    const { statusCode, body } = await refreshTokenController.execute(request)
+
+    response.status(statusCode).send(body)
+})
