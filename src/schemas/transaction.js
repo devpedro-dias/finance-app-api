@@ -37,6 +37,3 @@ export const updateTransactionSchema = createTransactionSchema
         user_id: true,
     })
     .partial()
-    .strict({
-        message: 'Some provided fields is not allowed',
-    })

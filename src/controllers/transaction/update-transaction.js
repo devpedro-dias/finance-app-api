@@ -7,6 +7,7 @@ import {
     serverError,
     badRequest,
     transactionNotFoundResponse,
+    forbidden
 } from '../helpers/index.js'
 import { TransactionNotFoundError } from '../../errors/transaction.js'
 
@@ -40,6 +41,10 @@ export class UpdateTransactionController {
 
             if (error instanceof TransactionNotFoundError) {
                 return transactionNotFoundResponse()
+            }
+
+            if (error instanceof ForbiddenError) {
+                return forbidden()
             }
 
             console.error(error)
