@@ -9,7 +9,7 @@ import {
     transactionNotFoundResponse,
     forbidden
 } from '../helpers/index.js'
-import { TransactionNotFoundError } from '../../errors/transaction.js'
+import { TransactionNotFoundError, ForbiddenError } from '../../errors/index.js'
 
 export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
