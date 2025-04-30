@@ -1,4 +1,4 @@
-import { ForbiddenError } from '../../errors'
+import { ForbiddenError } from '../../errors/index.js'
 
 export class UpdateTransactionUseCase {
     constructor(updateTransactionRepository, getTransactionByIdRepository) {
