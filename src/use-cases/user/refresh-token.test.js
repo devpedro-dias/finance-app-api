@@ -18,7 +18,7 @@ describe('RefreshTokenUseCase', () => {
     const makeSut = () => {
         const tokenVerifierAdapter = new TokenVerifierAdapterStub()
         const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
-        
+
         const sut = new RefreshTokenUseCase(
             tokensGeneratorAdapter,
             tokenVerifierAdapter,
@@ -34,9 +34,9 @@ describe('RefreshTokenUseCase', () => {
     it('should return new tokens', () => {
         const { sut } = makeSut()
         const refreshToken = 'any_refresh_token'
-        
+
         const result = sut.execute(refreshToken)
-        
+
         expect(result).toEqual({
             accessToken: 'any_access_token',
             refreshToken: 'any_refresh_token',
@@ -51,8 +51,8 @@ describe('RefreshTokenUseCase', () => {
             .mockImplementationOnce(() => {
                 throw new Error()
             })
-        
-            expect(() => sut.execute('any_refresh_token')).toThrow(
+
+        expect(() => sut.execute('any_refresh_token')).toThrow(
             new UnauthorizedError(),
         )
     })

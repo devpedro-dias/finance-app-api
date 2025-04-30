@@ -19,9 +19,13 @@ describe('UpdateTransactionUseCase', () => {
         const updateTransactionRepository =
             new UpdateTransactionRepositoryStub()
 
-        const getTransactionByIdRepository = new GetTransactionByIdRepositoryStub()
+        const getTransactionByIdRepository =
+            new GetTransactionByIdRepositoryStub()
 
-        const sut = new UpdateTransactionUseCase(updateTransactionRepository, getTransactionByIdRepository)
+        const sut = new UpdateTransactionUseCase(
+            updateTransactionRepository,
+            getTransactionByIdRepository,
+        )
 
         return {
             sut,

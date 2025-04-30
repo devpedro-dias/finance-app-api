@@ -4,8 +4,8 @@ export class PostgresGetTransactionByIdRepository {
     async execute(transactionId) {
         return await prisma.transaction.findUnique({
             where: {
-                id: transactionId
-            }
+                id: transactionId,
+            },
         })
     }
 }

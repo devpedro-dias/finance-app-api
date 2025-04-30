@@ -29,7 +29,7 @@ import {
     UuidGeneratorAdapter,
     PasswordComparatorAdapter,
     TokensGeneratorAdapter,
-    TokenVerifierAdapter
+    TokenVerifierAdapter,
 } from '../../adapters/index.js'
 
 export const makeGetUserByIdController = () => {

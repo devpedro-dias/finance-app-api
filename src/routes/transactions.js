@@ -17,8 +17,8 @@ transactionsRouter.get('/', auth, async (request, response) => {
             ...request,
             query: {
                 ...request.query,
-                userId: request.userId
-            }
+                userId: request.userId,
+            },
         })
 
     response.status(statusCode).send(body)
@@ -27,28 +27,26 @@ transactionsRouter.get('/', auth, async (request, response) => {
 transactionsRouter.post('/', auth, async (request, response) => {
     const createTransactionController = makeCreateTransactionController()
 
-    const { statusCode, body } =
-        await createTransactionController.execute({
-            ...request,
-            body: {
-                ...request.body,
-                userId: request.userId
-            }
-        })
+    const { statusCode, body } = await createTransactionController.execute({
+        ...request,
+        body: {
+            ...request.body,
+            userId: request.userId,
+        },
+    })
 
     response.status(statusCode).send(body)
 })
 
 transactionsRouter.patch('/:transactionId', async (request, response) => {
     const updateTransactionController = makeUpdateTransactionController()
-    const { statusCode, body } =
-        await updateTransactionController.execute({
-            ...request,
-            body: {
-                ...request.body,
-                userId: request.userId
-            }
-        })
+    const { statusCode, body } = await updateTransactionController.execute({
+        ...request,
+        body: {
+            ...request.body,
+            userId: request.userId,
+        },
+    })
 
     response.status(statusCode).send(body)
 })

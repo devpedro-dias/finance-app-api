@@ -6,7 +6,7 @@ import {
     makeGetUserByIdController,
     makeLoginUserController,
     makeUpdateUserController,
-    makeRefreshTokenController
+    makeRefreshTokenController,
 } from '../factories/controllers/user.js'
 import { auth } from '../middlewares/auth.js'
 
@@ -19,7 +19,7 @@ usersRouter.get('/', auth, async (request, response) => {
         ...request,
         params: {
             userId: request.userId,
-        }
+        },
     })
 
     response.status(statusCode).send(body)
@@ -32,7 +32,7 @@ usersRouter.get('/balance', auth, async (request, response) => {
         ...request,
         params: {
             userId: request.userId,
-        }
+        },
     })
 
     response.status(statusCode).send(body)
@@ -53,7 +53,7 @@ usersRouter.patch('/', auth, async (request, response) => {
         ...request,
         params: {
             userId: request.userId,
-        }
+        },
     })
 
     response.status(statusCode).send(body)
@@ -65,7 +65,7 @@ usersRouter.delete('/', auth, async (request, response) => {
         ...request,
         params: {
             userId: request.userId,
-        }
+        },
     })
 
     response.status(statusCode).send(body)

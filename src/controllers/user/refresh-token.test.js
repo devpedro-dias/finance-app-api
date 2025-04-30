@@ -13,9 +13,9 @@ describe('RefreshTokenController', () => {
 
     const makeSut = () => {
         const refreshTokenUseCase = new RefreshTokenUseCaseStub()
-        
+
         const sut = new RefreshTokenController(refreshTokenUseCase)
-        
+
         return {
             refreshTokenUseCase,
             sut,
@@ -29,29 +29,29 @@ describe('RefreshTokenController', () => {
                 refreshToken: 2,
             },
         }
-        
+
         const response = await sut.execute(httpRequest)
-        
+
         expect(response.statusCode).toBe(400)
     })
 
     it('should return 200 if refresh token is valid', async () => {
         const { sut } = makeSut()
-        
+
         const httpRequest = {
             body: {
                 refreshToken: 'valid_refresh_token',
             },
         }
-        
+
         const response = await sut.execute(httpRequest)
-        
+
         expect(response.statusCode).toBe(200)
     })
 
     it('should return 401 if use case throws UnauthorizedError', async () => {
         const { sut, refreshTokenUseCase } = makeSut()
-        
+
         import.meta.jest
             .spyOn(refreshTokenUseCase, 'execute')
             .mockImplementationOnce(() => {
@@ -64,7 +64,7 @@ describe('RefreshTokenController', () => {
             },
         }
         const response = await sut.execute(httpRequest)
-  
+
         expect(response.statusCode).toBe(401)
     })
 })

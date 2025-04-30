@@ -10,10 +10,10 @@ export class RefreshTokenUseCase {
         try {
             const decodedToken = this.tokenVerifierAdapter.execute(
                 refreshToken,
-                process.env.JWT_REFRESH_TOKEN_SECRET
+                process.env.JWT_REFRESH_TOKEN_SECRET,
             )
 
-            if(!decodedToken) {
+            if (!decodedToken) {
                 throw new UnauthorizedError()
             }
 
