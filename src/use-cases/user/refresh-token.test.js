@@ -1,5 +1,5 @@
-import { RefreshTokenUseCase } from './refresh-token.js'
-import { UnauthorizedError } from '../../errors/index.js'
+import { UnauthorizedError } from '../../errors'
+import { RefreshTokenUseCase } from './refresh-token'
 
 describe('RefreshTokenUseCase', () => {
     class TokenVerifierAdapterStub {
@@ -7,7 +7,6 @@ describe('RefreshTokenUseCase', () => {
             return true
         }
     }
-
     class TokensGeneratorAdapterStub {
         execute() {
             return {
@@ -16,42 +15,45 @@ describe('RefreshTokenUseCase', () => {
             }
         }
     }
-    
     const makeSut = () => {
-        const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
         const tokenVerifierAdapter = new TokenVerifierAdapterStub()
+        const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
         
-        const sut = new RefreshTokenUseCase(tokensGeneratorAdapter, tokenVerifierAdapter)
+        const sut = new RefreshTokenUseCase(
+            tokensGeneratorAdapter,
+            tokenVerifierAdapter,
+        )
 
         return {
             sut,
+            tokenVerifierAdapter,
             tokensGeneratorAdapter,
-            tokenVerifierAdapter
         }
     }
-
 
     it('should return new tokens', () => {
         const { sut } = makeSut()
         const refreshToken = 'any_refresh_token'
-
+        
         const result = sut.execute(refreshToken)
-
+        
         expect(result).toEqual({
             accessToken: 'any_access_token',
-            refreshToken: 'any_refresh_token'
+            refreshToken: 'any_refresh_token',
         })
     })
 
     it('should throw if tokenVerifierAdapter throws', () => {
         const { sut, tokenVerifierAdapter } = makeSut()
+
+        import.meta.jest
+            .spyOn(tokenVerifierAdapter, 'execute')
+            .mockImplementationOnce(() => {
+                throw new Error()
+            })
         
-        import.meta.jest.spyOn(tokenVerifierAdapter, 'execute').mockImplementationOnce(() => {
-            throw new Error()
-        })
-
-        const result = sut.execute('any_refresh_token')
-
-        expect(result).rejects.toThrow(new UnauthorizedError())
+            expect(() => sut.execute('any_refresh_token')).toThrow(
+            new UnauthorizedError(),
+        )
     })
 })
