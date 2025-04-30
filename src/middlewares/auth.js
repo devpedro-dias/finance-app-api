@@ -5,7 +5,7 @@ export const auth = (request, response, next) => {
         const accessToken = request.headers?.authorization?.split('Bearer ')[1]
 
         if (!accessToken) {
-            return response.status(401).send({ message: 'Unathorized' })
+            return response.status(401).send({ message: 'Unauthorized' })
         }
 
         const decodedToken = jwt.verify(
@@ -14,7 +14,7 @@ export const auth = (request, response, next) => {
         )
 
         if (!decodedToken) {
-            return response.status(401).send({ message: 'Unathorized' })
+            return response.status(401).send({ message: 'Unauthorized' })
         }
 
         request.userId = decodedToken.userId
@@ -22,6 +22,6 @@ export const auth = (request, response, next) => {
         next()
     } catch (error) {
         console.error(error)
-        return response.status(401).send({ message: 'Unathorized' })
+        return response.status(401).send({ message: 'Unauthorized' })
     }
 }
