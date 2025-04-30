@@ -80,7 +80,9 @@ describe('User Routes E2E Tests', () => {
                 id: undefined,
             })
 
-        await request(app).post('/api/transactions').send({
+        await request(app).post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+        .send({
             user_id: createdUser.id,
             name: faker.commerce.productName(),
             date: faker.date.anytime().toISOString(),
@@ -88,7 +90,9 @@ describe('User Routes E2E Tests', () => {
             amount: 10000,
         })
 
-        await request(app).post('/api/transactions').send({
+        await request(app).post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+        .send({
             user_id: createdUser.id,
             name: faker.commerce.productName(),
             date: faker.date.anytime().toISOString(),
@@ -96,7 +100,9 @@ describe('User Routes E2E Tests', () => {
             amount: 2000,
         })
 
-        await request(app).post('/api/transactions').send({
+        await request(app).post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+        .send({
             user_id: createdUser.id,
             name: faker.commerce.productName(),
             date: faker.date.anytime().toISOString(),
