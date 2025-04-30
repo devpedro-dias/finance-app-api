@@ -1,4 +1,4 @@
-import { UnauthorizedError } from '../../errors'
+import { UnauthorizedError } from '../../errors/index.js'
 import { RefreshTokenController } from './refresh-token'
 
 describe('RefreshTokenController', () => {
@@ -10,6 +10,7 @@ describe('RefreshTokenController', () => {
             }
         }
     }
+
     const makeSut = () => {
         const refreshTokenUseCase = new RefreshTokenUseCaseStub()
         
@@ -20,6 +21,7 @@ describe('RefreshTokenController', () => {
             sut,
         }
     }
+
     it('should return 400 if refresh token is invalid', async () => {
         const { sut } = makeSut()
         const httpRequest = {
@@ -32,6 +34,7 @@ describe('RefreshTokenController', () => {
         
         expect(response.statusCode).toBe(400)
     })
+
     it('should return 200 if refresh token is valid', async () => {
         const { sut } = makeSut()
         
@@ -45,6 +48,7 @@ describe('RefreshTokenController', () => {
         
         expect(response.statusCode).toBe(200)
     })
+
     it('should return 401 if use case throws UnauthorizedError', async () => {
         const { sut, refreshTokenUseCase } = makeSut()
         

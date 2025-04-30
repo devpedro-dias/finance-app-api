@@ -2,6 +2,7 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { CreateUserController } from './create-user.js'
 import { faker } from '@faker-js/faker'
 import { user } from '../../tests/fixtures/index.js'
+
 describe('CreateUserController', () => {
     class CreateUserUseCaseStub {
         async execute() {

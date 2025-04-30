@@ -1,5 +1,5 @@
 import { RefreshTokenUseCase } from './refresh-token.js'
-import { UnathorizedError } from '../../errors/index.js'
+import { UnauthorizedError } from '../../errors/index.js'
 
 describe('RefreshTokenUseCase', () => {
     class TokenVerifierAdapterStub {
@@ -52,6 +52,6 @@ describe('RefreshTokenUseCase', () => {
 
         const result = sut.execute('any_refresh_token')
 
-        expect(result).rejects.toThrow(new UnathorizedError())
+        expect(result).rejects.toThrow(new UnauthorizedError())
     })
 })
