@@ -6,6 +6,7 @@ import {
     makeGetUserByIdController,
     makeLoginUserController,
     makeUpdateUserController,
+    makeRefreshTokenController
 } from '../factories/controllers/user.js'
 import { auth } from '../middlewares/auth.js'
 

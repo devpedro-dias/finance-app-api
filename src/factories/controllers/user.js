@@ -5,7 +5,6 @@ import {
     GetUserByIdController,
     LoginUserController,
     UpdateUserController,
-    LoginUserController,
     RefreshTokenController,
 } from '../../controllers/index.js'
 import {
