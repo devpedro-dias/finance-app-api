@@ -32,17 +32,27 @@ describe('CreateUserUseCase', () => {
         }
     }
 
+    class TokensGeneratorAdapterStub {
+        execute() {
+            return {
+                accessToken: 'any_access_token',
+                refreshToken: 'any_refresh_token',
+            }
+        }
+    }
     const makeSut = () => {
         const getUserByEmailRepository = new GetUserByEmailRepositoryStub()
         const createUserRepository = new CreateUserRepositoryStub()
         const passwordHasherAdapter = new PasswordHasherAdapterStub()
         const uuidGeneratorAdapter = new UuidGeneratorAdapterStub()
+        const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
 
         const sut = new CreateUserUseCase(
             getUserByEmailRepository,
             createUserRepository,
             passwordHasherAdapter,
             uuidGeneratorAdapter,
+            tokensGeneratorAdapter,
         )
 
         return {
@@ -51,6 +61,7 @@ describe('CreateUserUseCase', () => {
             createUserRepository,
             passwordHasherAdapter,
             uuidGeneratorAdapter,
+            tokensGeneratorAdapter,
         }
     }
 
@@ -63,6 +74,8 @@ describe('CreateUserUseCase', () => {
 
         // Assert
         expect(createdUser).toBeTruthy()
+        expect(createdUser.tokens.accessToken).toBeDefined()
+        expect(createdUser.tokens.refreshToken).toBeDefined()
     })
 
     it('should throw an EmailAlreadyInUseError if the email is already in use', async () => {
