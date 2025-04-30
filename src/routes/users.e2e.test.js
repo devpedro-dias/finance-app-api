@@ -13,7 +13,7 @@ describe('User Routes E2E Tests', () => {
         expect(response.status).toBe(201)
     })
 
-    it('GET /api/users/:userId should return 200 when user is found', async () => {
+    it('GET /api/users/ should return 200 when user is found', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({
@@ -22,7 +22,7 @@ describe('User Routes E2E Tests', () => {
             })
 
         const response = await request(app)
-            .get(`/api/users/${createdUser.id}`)
+            .get(`/api/users`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
@@ -45,7 +45,7 @@ describe('User Routes E2E Tests', () => {
         }
 
         const response = await request(app)
-            .patch(`/api/users/${createdUser.id}`)
+            .patch(`/api/users`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send(updateUserParams)
 
@@ -65,7 +65,7 @@ describe('User Routes E2E Tests', () => {
             })
 
         const response = await request(app)
-            .delete(`/api/users/${createdUser.id}`)
+            .delete(`/api/users`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
@@ -105,7 +105,7 @@ describe('User Routes E2E Tests', () => {
         })
 
         const response = await request(app)
-            .get(`/api/users/${createdUser.id}/balance`)
+            .get(`/api/users/balance`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
