@@ -23,10 +23,11 @@ describe('DeleteTransactionController', () => {
     const httpRequest = {
         params: {
             transactionId: faker.string.uuid(),
+            user_id: faker.string.uuid(),
         },
     }
 
-    it('should return 200 when DeleteTransactionUseCase returns a transaction successfully', async () => {
+    it('should return 200 when deleting a transaction succesfully', async () => {
         // Arrange
         const { sut } = makeSut()
 
@@ -45,6 +46,7 @@ describe('DeleteTransactionController', () => {
         const result = await sut.execute({
             params: {
                 transactionId: 'invalid_id',
+                user_id: faker.string.uuid(),
             },
         })
 
@@ -58,7 +60,7 @@ describe('DeleteTransactionController', () => {
 
         import.meta.jest
             .spyOn(deleteTransactionUseCase, 'execute')
-            .mockRejectedValueOnce(new TransactionNotFoundError(transaction.id))
+            .mockRejectedValueOnce(new TransactionNotFoundError())
 
         // Act
         const result = await sut.execute(httpRequest)
@@ -67,7 +69,7 @@ describe('DeleteTransactionController', () => {
         expect(result.statusCode).toBe(404)
     })
 
-    it('should return 500 when DeleteTransactionUseCase throws', async () => {
+    it('should return 500 when DeleteTransactionController throws', async () => {
         // Arrange
         const { sut, deleteTransactionUseCase } = makeSut()
 
