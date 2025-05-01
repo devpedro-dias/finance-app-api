@@ -1,11 +1,18 @@
 import { faker } from '@faker-js/faker'
-import { transaction } from '../../tests/fixtures/index.js'
 import { DeleteTransactionUseCase } from './delete-transaction'
+import { transaction } from '../../tests/fixtures/index.js'
 
 describe('DeleteTransactionUseCase', () => {
+    const user_id = faker.string.uuid()
+
     class DeleteTransactionRepositoryStub {
         async execute() {
-            return transaction
+            return { ...transaction, user_id }
+        }
+    }
+    class GetTransactionByIdRepositoryStub {
+        async execute() {
+            return { ...transaction, user_id }
         }
     }
 
@@ -13,56 +20,62 @@ describe('DeleteTransactionUseCase', () => {
         const deleteTransactionRepository =
             new DeleteTransactionRepositoryStub()
 
-        const sut = new DeleteTransactionUseCase(deleteTransactionRepository)
+        const getTransactionByIdRepository =
+            new GetTransactionByIdRepositoryStub()
+
+        const sut = new DeleteTransactionUseCase(
+            deleteTransactionRepository,
+            getTransactionByIdRepository,
+        )
 
         return {
             sut,
             deleteTransactionRepository,
+            getTransactionByIdRepository,
         }
     }
 
     it('should delete transaction successfully', async () => {
         // Arrange
         const { sut } = makeSut()
-        const transactionId = faker.string.uuid()
+        const id = faker.string.uuid()
 
         // Act
-        const result = await sut.execute(transactionId)
+        const result = await sut.execute(id, user_id)
 
-        // Assert
-        expect(result).toEqual(transaction)
+        // expect
+        expect(result).toEqual({ ...transaction, user_id })
     })
 
     it('should call DeleteTransactionRepository with correct params', async () => {
         // Arrange
         const { sut, deleteTransactionRepository } = makeSut()
-        const executeSpy = import.meta.jest.spyOn(
+        const deleteTransactionRepositorySpy = import.meta.jest.spyOn(
             deleteTransactionRepository,
             'execute',
         )
-        const transactionId = faker.string.uuid()
+
+        const id = faker.string.uuid()
 
         // Act
-        await sut.execute(transactionId)
+        await sut.execute(id, user_id)
 
-        // Axpect
-        expect(executeSpy).toHaveBeenCalledWith(transactionId)
+        // expect
+        expect(deleteTransactionRepositorySpy).toHaveBeenCalledWith(id)
     })
 
     it('should throw if DeleteTransactionRepository throws', async () => {
         // Arrange
         const { sut, deleteTransactionRepository } = makeSut()
-
         import.meta.jest
             .spyOn(deleteTransactionRepository, 'execute')
             .mockRejectedValueOnce(new Error())
-
-        const transactionId = faker.string.uuid()
+        const id = faker.string.uuid()
 
         // Act
-        const promise = sut.execute(transactionId)
+        const promise = sut.execute(id, user_id)
 
-        // Axpect
+        // expect
         await expect(promise).rejects.toThrow()
     })
 })
