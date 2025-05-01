@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { user } from '../../tests/fixtures'
-import { LoginUserController } from './login-user'
-import { InvalidPasswordError, UserNotFoundError } from '../../errors'
+import { user } from '../../tests/fixtures/index.js'
+import { LoginUserController } from '../auth/login-user.js'
+import { InvalidPasswordError, UserNotFoundError } from '../../errors/index.js'
 
 describe('LoginUserController', () => {
     class LoginUserUseCaseStub {
