@@ -41,4 +41,14 @@ describe('PostgresGetTransactionByIdRepository', () => {
             where: { id: transactionId },
         })
     })
+
+    it('should throw if Prisma throws', async () => {
+        import.meta.jest
+            .spyOn(prisma.transaction, 'findUnique')
+            .mockRejectedValueOnce(new Error('DB error'))
+
+        const promise = sut.execute(faker.string.uuid())
+
+        await expect(promise).rejects.toThrow('DB error')
+    })
 })
