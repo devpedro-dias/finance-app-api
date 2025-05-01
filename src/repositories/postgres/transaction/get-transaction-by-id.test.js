@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { prisma } from '../../../../prisma/prisma.js'
 import { transaction } from '../../../tests/fixtures/transaction.js'
 import { user } from '../../../tests/fixtures/user.js'
@@ -19,5 +20,11 @@ describe('PostgresGetTransactionByIdRepository', () => {
         expect(result.id).toBe(createdTransaction.id)
         expect(result.name).toBe(transaction.name)
         expect(String(result.amount)).toStrictEqual(String(transaction.amount))
+    })
+
+    it('should return null when transaction is not found', async () => {
+        const result = await sut.execute(faker.string.uuid())
+
+        expect(result).toBeNull()
     })
 })
