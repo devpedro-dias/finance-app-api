@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UserNotFoundError } from '../../errors/user'
-import { user, userBalance } from '../../tests/fixtures/index.js'
+import { from, to, user, userBalance } from '../../tests/fixtures/index.js'
 import { GetUserBalanceUseCase } from './get-user-balance'
 
 describe('GetUserBalanceUseCase', () => {
@@ -37,7 +37,7 @@ describe('GetUserBalanceUseCase', () => {
         const { sut } = makeSut()
 
         // Act
-        const result = await sut.execute(faker.string.uuid())
+        const result = await sut.execute(faker.string.uuid(), from, to)
 
         // Assert
         expect(result).toEqual(userBalance)
@@ -53,7 +53,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        const promise = sut.execute(userId)
+        const promise = sut.execute(userId, from, to)
 
         // Assert
         expect(promise).rejects.toThrow(new UserNotFoundError(userId))
@@ -69,7 +69,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
         // Assert
         expect(executeSpy).toHaveBeenCalledWith(userId)
@@ -85,10 +85,10 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
         // Assert
-        expect(executeSpy).toHaveBeenCalledWith(userId)
+        expect(executeSpy).toHaveBeenCalledWith(userId, from, to)
     })
 
     it('should throw if GetUserByIdRepository throws', async () => {
@@ -101,7 +101,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        const promise = sut.execute(userId)
+        const promise = sut.execute(userId, from, to)
 
         // Assert
         await expect(promise).rejects.toThrow()
@@ -117,7 +117,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        const promise = sut.execute(userId)
+        const promise = sut.execute(userId, from, to)
 
         // Assert
         await expect(promise).rejects.toThrow()
