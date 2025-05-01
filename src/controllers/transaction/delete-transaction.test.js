@@ -91,14 +91,17 @@ describe('DeleteTransactionController', () => {
         )
 
         const transactionId = faker.string.uuid()
+        const userId = faker.string.uuid()
+
         // Act
         await sut.execute({
             params: {
                 transactionId: transactionId,
+                user_id: userId,
             },
         })
 
         // Assert
-        expect(executeSpy).toHaveBeenCalledWith(transactionId)
+        expect(executeSpy).toHaveBeenCalledWith(transactionId, userId)
     })
 })
