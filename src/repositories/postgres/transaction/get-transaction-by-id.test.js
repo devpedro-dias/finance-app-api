@@ -27,4 +27,18 @@ describe('PostgresGetTransactionByIdRepository', () => {
 
         expect(result).toBeNull()
     })
+
+    it('should call Prisma with correct params', async () => {
+        const prismaSpy = import.meta.jest.spyOn(
+            prisma.transaction,
+            'findUnique',
+        )
+        const transactionId = faker.string.uuid()
+
+        await sut.execute(transactionId)
+
+        expect(prismaSpy).toHaveBeenCalledWith({
+            where: { id: transactionId },
+        })
+    })
 })
