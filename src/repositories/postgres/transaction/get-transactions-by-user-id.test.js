@@ -1,20 +1,23 @@
 import dayjs from 'dayjs'
 import { prisma } from '../../../../prisma/prisma'
-import { transaction, user } from '../../../tests/fixtures'
+import { from, to, transaction, user } from '../../../tests/fixtures'
 import { PostgresGetTransactionsByUserIdRepository } from './get-transactions-by-user-id'
 
 describe('PostgresGetTransactionsByUserIdRepository', () => {
     it('should get transactions by user id on db', async () => {
+        const date = '2025-01-02'
+
         const sut = new PostgresGetTransactionsByUserIdRepository()
         await prisma.user.create({ data: user })
         await prisma.transaction.create({
             data: {
                 ...transaction,
+                date: new Date(date),
                 user_id: user.id,
             },
         })
 
-        const result = await sut.execute(user.id)
+        const result = await sut.execute(user.id, from, to)
 
         expect(result.length).toBe(1)
         expect(result[0].name).toBe(transaction.name)
@@ -22,22 +25,24 @@ describe('PostgresGetTransactionsByUserIdRepository', () => {
         expect(String(result[0].amount)).toBe(String(transaction.amount))
         expect(result[0].user_id).toBe(user.id)
         expect(dayjs(result[0].date).daysInMonth()).toBe(
-            dayjs(transaction.date).daysInMonth(),
+            dayjs(date).daysInMonth(),
         )
-        expect(dayjs(result[0].date).month()).toBe(
-            dayjs(transaction.date).month(),
-        )
+        expect(dayjs(result[0].date).month()).toBe(dayjs(date).month())
     })
 
     it('should call Prisma with correct params', async () => {
         const prismaSpy = import.meta.jest.spyOn(prisma.transaction, 'findMany')
         const sut = new PostgresGetTransactionsByUserIdRepository()
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
         expect(prismaSpy).toHaveBeenCalledWith({
             where: {
                 user_id: user.id,
+                date: {
+                    gte: new Date(from),
+                    lte: new Date(to),
+                },
             },
         })
     })
