@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { app } from '../app.js'
-import { transaction, user } from '../tests/fixtures/index.js'
+import { from, to, transaction, user } from '../tests/fixtures/index.js'
 import { TransactionType } from '@prisma/client'
 
 describe('Transaction Routes E2E Tests', () => {
@@ -37,7 +37,7 @@ describe('Transaction Routes E2E Tests', () => {
             .send({ ...transaction, user_id: createdUser.id, id: undefined })
 
         const response = await request(app)
-            .get(`/api/transactions`)
+            .get(`/api/transactions?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)

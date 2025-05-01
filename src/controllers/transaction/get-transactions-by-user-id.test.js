@@ -1,5 +1,5 @@
 import { UserNotFoundError } from '../../errors/user'
-import { transaction } from '../../tests/fixtures/index.js'
+import { from, to, transaction } from '../../tests/fixtures/index.js'
 import { GetTransactionsByUserIdController } from './get-transactions-by-user-id'
 import { faker } from '@faker-js/faker'
 
@@ -25,6 +25,8 @@ describe('GetTransactionsByUserIdController', () => {
         const result = await sut.execute({
             query: {
                 userId: faker.string.uuid(),
+                from,
+                to,
             },
         })
 
@@ -40,6 +42,8 @@ describe('GetTransactionsByUserIdController', () => {
         const result = await sut.execute({
             query: {
                 userId: undefined,
+                from,
+                to,
             },
         })
 
@@ -55,6 +59,8 @@ describe('GetTransactionsByUserIdController', () => {
         const result = await sut.execute({
             query: {
                 userId: 'invalid_user_id',
+                from,
+                to,
             },
         })
 
@@ -72,7 +78,7 @@ describe('GetTransactionsByUserIdController', () => {
 
         // Act
         const result = await sut.execute({
-            query: { userId: faker.string.uuid() },
+            query: { userId: faker.string.uuid(), from, to },
         })
 
         // Assert
@@ -89,7 +95,7 @@ describe('GetTransactionsByUserIdController', () => {
 
         // Act
         const result = await sut.execute({
-            query: { userId: faker.string.uuid() },
+            query: { userId: faker.string.uuid(), from, to },
         })
 
         // Assert
@@ -105,10 +111,10 @@ describe('GetTransactionsByUserIdController', () => {
 
         // Act
         await sut.execute({
-            query: { userId: userId },
+            query: { userId: userId, from, to },
         })
 
         // Assert
-        expect(executeSpy).toHaveBeenCalledWith(userId)
+        expect(executeSpy).toHaveBeenCalledWith(userId, from, to)
     })
 })
