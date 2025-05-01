@@ -8,3 +8,6 @@ export const transaction = {
     type: 'EXPENSE',
     amount: Number(faker.finance.amount()),
 }
+
+export const from = '2025-01-01'
+export const to = '2025-01-31'
