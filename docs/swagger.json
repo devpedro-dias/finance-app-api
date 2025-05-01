@@ -85,14 +85,20 @@
                     }
                 ]
             },
-            "delete": {
-                "summary": "Delete authenticated user",
+            "patch": {
+                "summary": "Update authenticated user",
                 "tags": ["User"],
                 "responses": {
                     "200": {
-                        "description": "User deleted successfully",
+                        "description": "User updated successfully",
                         "schema": {
                             "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamResponse"
                         }
                     },
                     "404": {
@@ -114,20 +120,14 @@
                     }
                 ]
             },
-            "patch": {
-                "summary": "Update authenticated user",
+            "delete": {
+                "summary": "Delete authenticated user",
                 "tags": ["User"],
                 "responses": {
                     "200": {
-                        "description": "User updated successfully",
+                        "description": "User deleted successfully",
                         "schema": {
                             "$ref": "#/definitions/User"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid params",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidParamResponse"
                         }
                     },
                     "404": {
@@ -390,10 +390,10 @@
                 ]
             }
         },
-        "/api/users/login": {
+        "/api/auth/login": {
             "post": {
                 "summary": "Login User",
-                "tags": ["User"],
+                "tags": ["Auth"],
                 "parameters": [
                     {
                         "name": "body",
@@ -426,10 +426,10 @@
                 }
             }
         },
-        "/api/users/refresh-token": {
+        "/api/auth/refresh-token": {
             "post": {
                 "summary": "Refresh User Token",
-                "tags": ["User"],
+                "tags": ["Auth"],
                 "parameters": [
                     {
                         "name": "body",
@@ -721,6 +721,15 @@
                 "message": {
                     "type": "string",
                     "example": "Internal server error"
+                }
+            }
+        },
+        "UnauthorizedErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Unauthorized"
                 }
             }
         }
