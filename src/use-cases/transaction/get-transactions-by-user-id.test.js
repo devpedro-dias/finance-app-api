@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { GetTransactionsByUserIdUseCase } from './get-transactions-by-user-id'
 import { UserNotFoundError } from '../../errors/user'
-import { user } from '../../tests/fixtures/index.js'
+import { from, to, user } from '../../tests/fixtures/index.js'
 
 describe('GetTransactionsByUserIdUseCase', () => {
     class GetTransactionsByUserIdRepositoryStub {
@@ -87,10 +87,10 @@ describe('GetTransactionsByUserIdUseCase', () => {
         const userId = faker.string.uuid()
 
         // Act
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
         // Assert
-        expect(executeSpy).toHaveBeenCalledWith(userId)
+        expect(executeSpy).toHaveBeenCalledWith(userId, from, to)
     })
 
     it('should throw if GetUserByIdRepository throws', async () => {
