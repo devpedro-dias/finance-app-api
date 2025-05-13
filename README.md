@@ -33,13 +33,18 @@ A maioria dos endpoints está vinculada ao usuário logado, utilizando a conven�
 
 ## 📦 Endpoints Principais
 
+### Auth
 - `POST /api/auth/login` – Autenticação do usuário
 - `POST /api/auth/refresh-token` – Gera um novo access token
+
+### Users
 - `GET /api/users/me` – Retorna os dados do usuário autenticado
 - `POST /api/users` – Cria um novo usuário
 - `PATCH /api/users/me` – Atualiza dados do usuário autenticado
 - `DELETE /api/users` – Deleta o usuário autenticado
 - `GET /api/users/balance/me` – Retorna o saldo do usuário autenticado
+
+### Transactions
 - `GET /api/transactions/me` – Lista transações do usuário autenticado
 - `POST /api/transactions/me` – Cria uma nova transação
 - `PATCH /api/transactions/me/:transactionId` – Atualiza uma transação existente
