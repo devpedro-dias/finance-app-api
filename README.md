@@ -16,6 +16,8 @@ Uma API RESTful para gerenciamento financeiro pessoal, desenvolvida com Node.js 
 - **Swagger** – Documentação interativa da API
 - **GitHub Actions** – Integração e entrega contínua (CI/CD)
 - **Render** – Deploy automático com Webhook a partir da branch `master`
+- **ESLint** & **Prettier** – Padronização e formatação de código
+- **Husky** & **lint-staged** – Gatilhos de pré-commit para garantir qualidade de código
 
 ---
 
