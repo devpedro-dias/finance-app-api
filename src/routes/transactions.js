@@ -33,7 +33,7 @@ transactionsRouter.post('/me', auth, async (request, response) => {
         ...request,
         body: {
             ...request.body,
-            userId: request.userId,
+            user_id: request.userId,
         },
     })
 
@@ -46,7 +46,7 @@ transactionsRouter.patch('/me/:transactionId', async (request, response) => {
         ...request,
         body: {
             ...request.body,
-            userId: request.userId,
+            user_id: request.userId,
         },
     })
 
