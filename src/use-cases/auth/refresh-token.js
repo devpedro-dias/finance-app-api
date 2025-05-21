@@ -6,7 +6,7 @@ export class RefreshTokenUseCase {
         this.tokenVerifierAdapter = tokenVerifierAdapter
     }
 
-    execute(refreshToken) {
+    async execute(refreshToken) {
         try {
             const decodedToken = this.tokenVerifierAdapter.execute(
                 refreshToken,
