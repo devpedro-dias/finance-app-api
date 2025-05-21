@@ -265,6 +265,16 @@
             "post": {
                 "summary": "Create a new transaction for the authenticated user",
                 "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/CreateTransactionParams"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Transaction created successfully",
